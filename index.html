@@ -520,7 +520,10 @@
         if (node.type === 'dir') { addLine('cat: ' + escHtml(args[0]) + ': Is a directory'); return; }
         var lines = node.content.split('\n');
         for (var i = 0; i < lines.length; i++) {
-          addLine(escHtml(lines[i]));
+          var line = escHtml(lines[i]);
+          // Make URLs clickable
+          line = line.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:#3498db;text-decoration:underline">$1</a>');
+          addLine(line);
         }
       },
       open: function(args) {
@@ -542,8 +545,6 @@
           addLine('');
           addLine('  Never gonna give you up, never gonna let you down...', 'accent');
           addLine('  Never gonna run around and desert you!', 'accent');
-          addLine('');
-          addLine('  You just got Rick Rolled. You earned it. 🎤', 'dim');
           addLine('');
           var iframe = document.createElement('div');
           iframe.className = 'term-line';
