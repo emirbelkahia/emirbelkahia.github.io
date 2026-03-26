@@ -1,30 +1,29 @@
-# personal website
+# emirbelkahia.com
 
-This repository is a central hub with useful links to follow my work and collaborate with me.
+Source code for my personal website and CV — hosted on GitHub Pages.
 
-📬 Reach out on [LinkedIn](https://www.linkedin.com/in/emirbelkahia)
-
-The "site": [emirbelkahia.com](https://emirbelkahia.com)
+📬 [linkedin.com/in/emirbelkahia](https://www.linkedin.com/in/emirbelkahia)
+🌐 [emirbelkahia.com](https://emirbelkahia.com)
 
 ## Structure
 
-| Fichier | Rôle |
+| File | Role |
 |---|---|
-| `index.html` | Page d'accueil du site |
-| `cv.html` | CV version web (publique, stylisée) |
-| `cv-ats.html` | Source du CV PDF — format ATS, sans coordonnées (bot-safe) |
-| `cv.pdf` | PDF généré depuis `cv-ats.html` avec email + téléphone injectés |
+| `index.html` | Homepage |
+| `cv.html` | Web CV (public, styled version) |
+| `cv-ats.html` | ATS-friendly CV source — no contact details (bot-safe) |
+| `cv.pdf` | PDF generated from `cv-ats.html` with email & phone injected at build time |
 
-## Générer le PDF
+## Generating the PDF
 
-Le PDF contient les coordonnées (email, téléphone) mais `cv-ats.html` ne les contient pas, pour éviter le crawling de bots.
+The PDF includes contact details (email, phone) but `cv-ats.html` does not, to avoid bot crawling.
 
 ```bash
-# 1. Copier le fichier d'exemple et renseigner les vraies coordonnées
+# 1. Copy the example env file and fill in your details
 cp .env.example .env
 
-# 2. Générer le PDF
+# 2. Generate the PDF
 ./generate-pdf.sh
 ```
 
-Le `.env` est dans le `.gitignore` — il ne sera jamais commité.
+The `.env` file is gitignored and will never be committed.
