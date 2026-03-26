@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emir Belkahia – Strategic Customer Success Manager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a1a1a;
+      --accent-color: #2c3e50;
+      --text-color: #333;
+      --secondary-text: #666;
+      --light-gray: #999;
+      --line-color: #ddd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: #fff;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 40px 50px;
+    }
+
+    .header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--line-color);
+      padding-bottom: 20px;
+      position: relative;
+    }
+
+    .header-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .header .title {
+      font-size: 16px;
+      color: var(--accent-color);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .contact-info {
+      font-size: 11px;
+      color: var(--secondary-text);
+      line-height: 1.5;
+    }
+
+    .contact-info a {
+      color: var(--secondary-text);
+      text-decoration: none;
+    }
+
+    .contact-info a:hover {
+      color: var(--accent-color);
+    }
+
+    .summary {
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin: 20px 0 24px 0;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 24px 0 10px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px 16px;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .skills-grid span {
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .skills-grid span:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+      font-weight: 700;
+    }
+
+    .job {
+      margin-bottom: 18px;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+
+    .job-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .job-date {
+      font-size: 11px;
+      color: var(--secondary-text);
+      white-space: nowrap;
+    }
+
+    .company-location {
+      font-size: 11px;
+      color: var(--secondary-text);
+      margin-bottom: 7px;
+    }
+
+    .company-location strong {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 4px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    ul li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+    }
+
+    .project {
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 2px;
+    }
+
+    .project-desc {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-color);
+    }
+
+    .education-item {
+      margin-bottom: 7px;
+    }
+
+    .education-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .education-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .education-year {
+      font-size: 11px;
+      color: var(--secondary-text);
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .container { padding: 30px 40px; }
+    }
+
+    @page {
+      size: A4;
+      margin: 8mm 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="header">
+      <img src="profile-pic.jpeg" alt="Emir Belkahia" class="header-photo">
+      <h1>Emir Belkahia</h1>
+      <div class="title">Strategic Customer Success Manager</div>
+      <div class="contact-info" id="contact">
+        <em>Email &amp; phone available on PDF version.</em> |
+        <a href="https://www.linkedin.com/in/emirbelkahia" target="_blank">linkedin.com/in/emirbelkahia</a>
+      </div>
+    </header>
+
+    <section>
+      <p class="summary">
+        Technical post-sales customer success leader with 13+ years in enterprise B2B and hands-on experience building AI-powered tools: RAG pipelines, real-time voice AI, and LLM agents with structured outputs. 15 consecutive quarters >100% GRR at Algolia. Builder mindset: 40+ tools shipped to drive adoption, automate workflows, and compound team efficiency.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">Key Skills</h2>
+      <div class="skills-grid">
+        <span>AI Tool Building &amp; LLM Agents</span>
+        <span>Strategic Account Management</span>
+        <span>Real-Time Voice AI</span>
+        <span>RAG &amp; Vector Search</span>
+        <span>Technical Enablement &amp; Adoption</span>
+        <span>Solution Architecture Design</span>
+        <span>AI Agent Orchestration</span>
+        <span>Customer Success Playbook Design</span>
+        <span>Cross-Functional Program Management</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Professional Experience</h2>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Staff Customer Success Manager</div>
+          <div class="job-date">Apr 2025 – Present</div>
+        </div>
+        <div class="company-location"><strong>Algolia</strong> | Paris, France</div>
+        <ul>
+          <li>Managed a ~$6M ARR portfolio of 10–12 Strategic accounts, including 2 accounts >$1M ARR with operations spanning 50+ countries and 10+ internal teams.</li>
+          <li>Served as the trusted post-sales advisor for Strategic-tier accounts, maintaining >100% gross revenue retention over 15 consecutive quarters across Senior and Staff tenure.</li>
+          <li>Enabled +5 to +15% conversion rate uplift and up to 10x ROI for e-commerce clients via success plans, adoption playbooks, and hands-on search optimization.</li>
+          <li>Led solution architecture workshops with enterprise clients and executive sponsors to scope AI and search integrations, translating business objectives into technical constraints and deployment milestones.</li>
+          <li>Built AI-powered tools including RAG pipelines, real-time voice AI workflows, and LLM agents to compound team efficiency and customer intelligence.</li>
+          <li>Coached multiple peers on account strategy and execution, codified best practices into team-wide playbooks, and served as interim CS manager (Jan 2026) during parental leave coverage.</li>
+          <li>Delivered talks at Tech for Retail (Paris) and co-hosted partner webinars on agentic AI, search relevance, and agent protocols (MCP, UCP), building external visibility for the CS function.</li>
+          <li>Partnered across Sales, Product, and Marketing to surface product feedback, align on customer outcomes, and unblock technical deployments.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Senior Customer Success Manager</div>
+          <div class="job-date">Apr 2021 – Apr 2025</div>
+        </div>
+        <div class="company-location"><strong>Algolia</strong> | Paris, France</div>
+        <ul>
+          <li>Managed a ~$3M ARR portfolio of 20–35 Enterprise and Strategic accounts with consistent >100% gross revenue retention.</li>
+          <li>Awarded Algolia Presidents Club 2023 and 2024, the top company recognition for revenue retention and customer growth performance.</li>
+          <li>Delivered structured Business Reviews with data-driven insights, drove renewals in uncertain contexts, and created onboarding guides adopted team-wide.</li>
+          <li>Delivered onsite and remote enablement sessions, group-wide training across multiple countries, and change management and champion building programs for enterprise clients in high-complexity industries.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Technical Account Manager</div>
+          <div class="job-date">Dec 2016 – Apr 2021</div>
+        </div>
+        <div class="company-location"><strong>Kurmi Software</strong> | Boulogne-Billancourt, France</div>
+        <ul>
+          <li>Owned the end-to-end technical relationship for enterprise telecom clients: from pre-sales scoping through delivery, adoption, and expansion.</li>
+          <li>Led technical discovery calls, product demos, and POCs during the sales cycle, translating customer needs into technical requirements.</li>
+          <li>Collaborated with Sales to close deals by addressing technical objections and architecting tailored solutions.</li>
+          <li>Post-sale, ensured successful deployment and drove adoption through hands-on technical enablement.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Consultant – Digital Transformation</div>
+          <div class="job-date">Sep 2012 – Nov 2016</div>
+        </div>
+        <div class="company-location"><strong>Wavestone</strong> | Paris, France</div>
+        <ul>
+          <li>Led an 18-month enterprise telephony renewal at a major French investment bank: managed two parallel RFPs from requirements gathering through vendor selection to full production rollout, supervising a junior consultant.</li>
+          <li>Led additional digital transformation programs for enterprise clients: system architecture, process design, and operational alignment.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Selected Projects</h2>
+
+      <div class="project">
+        <div class="project-title">Gainsight AI Overlay</div>
+        <div class="project-desc">Mini-SaaS built by a CSM for CSMs: voice brain dump → LLM analysis → automatic CRM field population with confidence scoring, reducing administrative work to near zero. Chrome Extension bridge on Gainsight. (Next.js, OpenAI API, Chrome Extension MV3)</div>
+      </div>
+
+      <div class="project">
+        <div class="project-title">Real-Time Voice Agent</div>
+        <div class="project-desc">Built a real-time voice agent with the full STT → LLM → TTS pipeline using Pipecat: speech input, GPT-4o streaming, sentence aggregation, and Gradium text-to-speech output via WebSocket. (Python, Pipecat, OpenAI SDK, FastAPI)</div>
+      </div>
+
+      <div class="project">
+        <div class="project-title">RAG Pipeline with LLM Embeddings</div>
+        <div class="project-desc">Automated knowledge base pipeline: Google Drive trigger → Embeddings API → Pinecone vector store → RAG chat agent. Full retrieval-augmented generation pattern. (n8n, OpenAI API, Pinecone)</div>
+      </div>
+
+      <div class="project">
+        <div class="project-title">LLM Business Review Agent</div>
+        <div class="project-desc">Voice-to-slides automation: Telegram voice note → Whisper STT → PII guardrails → LLM structured JSON output → Google Slides generation. Shipped for CS team internal use. (n8n, OpenAI API)</div>
+      </div>
+
+      <p style="font-size: 10px; color: var(--secondary-text); margin-top: 8px;">
+        40+ projects shipped, including Chrome Extensions, LLM-as-Judge QA workflows, and CRM automation suites.
+        Code on <a href="https://github.com/emirbelkahia" target="_blank">GitHub</a>,
+        writing on <a href="https://medium.com/@emirbelkahia" target="_blank">Medium</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">Education &amp; Certifications</h2>
+      <div class="education-item">
+        <div class="education-header">
+          <div class="education-title">EPITA – Master's in Computer Engineering</div>
+          <div class="education-year">2012</div>
+        </div>
+      </div>
+      <div class="education-item">
+        <div class="education-header">
+          <div class="education-title">SuccessCOACHING – Certified Customer Success Manager (CCSM) Levels 1–5</div>
+          <div class="education-year">2026</div>
+        </div>
+      </div>
+      <div class="education-item">
+        <div class="education-header">
+          <div class="education-title">Baymard Institute – E-Commerce UX Professional, Tier 2</div>
+          <div class="education-year">2023</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Languages</h2>
+      <div style="font-size: 11px; line-height: 1.6;">
+        <strong>French</strong> (Native) | <strong>English</strong> (Full Professional)
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Personal Interests</h2>
+      <div style="font-size: 11px; line-height: 1.6;">
+        GoPro &amp; drone storytelling and editing. Strategic non-fiction reader (The Trusted Advisor, Influence by Cialdini, 7 Pillars of Customer Success). Long-distance runner. Automation &amp; narrative-driven titles (Factorio, The Last of Us).
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
