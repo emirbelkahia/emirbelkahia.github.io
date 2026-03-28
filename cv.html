@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Emir Belkahia – Strategic CSM</title>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- GoatCounter Analytics -->
@@ -25,6 +25,13 @@
       display: flex;
       justify-content: center;
       padding: 20px;
+      padding-left: max(20px, env(safe-area-inset-left));
+      padding-right: max(20px, env(safe-area-inset-right));
+    }
+    .resume-wrapper {
+      width: 100%;
+      max-width: 940px;
+      box-sizing: border-box;
     }
     .resume-container {
       display: flex;
@@ -194,7 +201,10 @@
     }
       @media (max-width: 768px) {
       body {
-        padding: 10px;
+        padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+      }
+      .resume-wrapper {
+        width: 100%;
       }
       .resume-container {
         flex-direction: column;
