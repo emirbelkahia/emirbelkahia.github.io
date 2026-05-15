@@ -1,0 +1,10 @@
+Quick paste test
+
+John Smith emailed john.smith@example.com from Paris on May 2.
+Call +33 6 12 34 56 78.
+IBAN FR7630006000011234567890189.
+SIRET 732 829 320 00074.
+VAT FR40303265045.
+Office IP: 172.16.4.20.
+Card: 5555 4444 3333 1111.
+

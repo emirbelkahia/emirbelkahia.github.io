@@ -1,0 +1,37 @@
+Assignation devant le tribunal judiciaire
+
+Le présent document est un exemple fictif destiné aux tests manuels de l'application. Il ne constitue pas un acte officiel et ne doit pas être utilisé comme modèle juridique.
+
+Le 14 mars, la société Horizon Atelier a constaté un retard important dans la livraison d'un lot de matériel informatique commandé pour le déploiement d'un nouveau bureau régional. La commande avait été confirmée par email, puis suivie par plusieurs échanges téléphoniques entre les équipes opérationnelles. Pendant les trois premières semaines, les réponses du fournisseur sont restées générales et ne mentionnaient aucun obstacle précis. La direction a donc maintenu le calendrier interne de formation et d'installation.
+
+Le demandeur indique que le retard a entraîné une réorganisation complète du planning. Les collaborateurs affectés au projet ont été réassignés temporairement à des tâches de documentation, tandis que le service financier a dû reporter plusieurs validations. Le présent litige porte uniquement sur les conséquences contractuelles du retard et non sur la qualité du matériel livré ultérieurement.
+
+Parties concernées
+
+Demandeur : Jeanne Morel
+Email de contact : jeanne.morel@example.fr
+Téléphone : +33 1 44 55 66 77
+
+Défendeur : cabinet fictif Nord Conseil
+Représentant mentionné dans les échanges : Paul Armand
+
+Le demandeur expose que plusieurs relances ont été adressées au fournisseur. Une première relance informelle a été envoyée à la fin du mois de mars. Une deuxième relance plus structurée a été transmise le 3 avril, avec copie au service comptable. Cette relance rappelait les engagements de planning, la date de livraison attendue et les impacts prévus en cas de nouveau report.
+
+Les pièces jointes mentionnées dans le dossier comprennent notamment un bon de commande, un extrait de correspondance et une note interne de synthèse. Ces pièces ne sont pas reproduites dans le présent exemple. Elles sont seulement citées afin de donner au texte une forme proche d'un dossier réel.
+
+Chronologie simplifiée
+
+Le 5 février, les parties valident une commande de matériel. Le 12 février, le fournisseur confirme la disponibilité théorique des articles. Le 27 février, un premier message signale un possible décalage. Le 14 mars, l'équipe projet constate que le retard compromet l'ouverture du site pilote. Le 3 avril, une mise en demeure amiable est transmise. Le 16 avril, une réunion a lieu à Paris afin de discuter d'un calendrier de rattrapage.
+
+Un numéro de référence interne est indiqué dans le dossier : REF-OPS-2026-0416. Il ne s'agit pas d'une donnée personnelle. En revanche, l'adresse email opérationnelle suivante doit être masquée : operations.paris@example.com.
+
+Demandes formulées
+
+Le demandeur sollicite la reconnaissance du manquement contractuel, le remboursement de certains frais de coordination et la prise en charge des coûts liés au report des prestations. Les montants ne sont pas indiqués dans cet exemple afin d'éviter toute confusion avec un document comptable réel. Le tribunal devra apprécier les demandes au regard des pièces communiquées et des explications fournies par chaque partie.
+
+Observations complémentaires
+
+Le texte contient volontairement beaucoup de phrases neutres qui ne doivent pas être anonymisées. Des mots comme tribunal, demandeur, fournisseur, livraison, planning, réunion, projet ou document doivent rester lisibles. L'objectif du test est de vérifier que l'application ne transforme pas un document entier en tags, mais remplace uniquement les informations sensibles dispersées.
+
+Adresse IP de consultation du portail lors du dépôt fictif : 192.168.10.24.
+IBAN mentionné dans une pièce de remboursement : FR7630006000011234567890189.

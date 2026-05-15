@@ -1,0 +1,11 @@
+Facture brouillon
+
+Client: Claire Martin
+Email: claire.martin@example.fr
+Telephone: +33 6 12 34 56 78
+SIRET: 732 829 320 00074
+TVA: FR40303265045
+IBAN: FR7630006000011234567890189
+
+Le statut Orange du tableau de suivi ne doit pas etre confondu avec une donnee sensible.
+

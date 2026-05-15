@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Aperçu privé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0e0e0e;
+      --card: #181818;
+      --text: #f2f2f2;
+      --muted: #9b9b9b;
+      --accent: #3498db;
+      --accent-hover: #5dade2;
+      --success: #2ecc71;
+      --border: #262626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      font-family: 'Montserrat', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    /* Password gate */
+    #gate {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg);
+      z-index: 100;
+    }
+    #gate.hidden { display: none; }
+    .gate-card {
+      width: min(420px, calc(100% - 32px));
+      padding: 32px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .gate-card h1 { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; }
+    .gate-card p { font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
+    .gate-card input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+    .gate-card input:focus { outline: none; border-color: var(--accent); }
+    .gate-card button {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--accent);
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .gate-card button:hover { background: var(--accent-hover); }
+    .gate-error { color: #e74c3c; font-size: 0.82rem; margin-top: 10px; min-height: 18px; }
+
+    /* Main content */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    h1.hero {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      line-height: 1.2;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .lead {
+      font-size: 1.02rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+    section { margin-bottom: 36px; }
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .download-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      flex-wrap: wrap;
+    }
+    .download-card .meta { font-size: 0.85rem; color: var(--muted); }
+    .download-card .meta strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 0.95rem; }
+    .btn-primary {
+      display: inline-block;
+      padding: 12px 22px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; text-decoration: none; }
+    .samples ul { list-style: none; display: grid; gap: 8px; }
+    .samples li {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .samples li .name { color: var(--text); }
+    .samples li .lang { font-size: 0.72rem; color: var(--muted); margin-left: 8px; }
+    .samples li a { font-weight: 500; font-size: 0.85rem; }
+    .steps {
+      display: grid;
+      gap: 14px;
+      padding-left: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+    .steps li {
+      counter-increment: step;
+      padding-left: 38px;
+      position: relative;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute; left: 0; top: 0;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .steps li strong { color: var(--text); }
+    .steps li code {
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .note {
+      padding: 14px 18px;
+      background: rgba(52, 152, 219, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .note strong { color: var(--text); }
+    footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="gate">
+    <form class="gate-card" id="gate-form">
+      <h1>Page privée 🔒</h1>
+      <p>Saisis le mot de passe que je t'ai donné pour accéder à l'aperçu.</p>
+      <input type="password" id="gate-input" placeholder="Mot de passe" autocomplete="off" autofocus />
+      <button type="submit">Entrer</button>
+      <div class="gate-error" id="gate-error"></div>
+    </form>
+  </div>
+
+  <main class="container" id="content" hidden>
+    <p class="eyebrow">Aperçu privé — pour Pauline</p>
+    <h1 class="hero">Local Anonymizer<br />by Pauline</h1>
+    <p class="lead">
+      Une petite app macOS qu'on prépare ensemble pour ton lead magnet. Elle anonymise un texte ou un PDF
+      <strong>directement sur ton ordinateur</strong> — aucun envoi cloud — avant que tu le colles dans ChatGPT ou
+      n'importe quelle IA. C'est une version <strong>preview</strong>, vraiment faite pour tester.
+    </p>
+
+    <section>
+      <h2>1. Télécharge l'app</h2>
+      <div class="download-card">
+        <div class="meta">
+          <strong>Local Anonymizer by Pauline · v0.1.0-preview</strong>
+          macOS Apple Silicon (M1/M2/M3/M4) · ~158 Mo · 100 % local
+        </div>
+        <a class="btn-primary" href="https://github.com/emirbelkahia/local-anonymizer-releases/releases/download/v0.1.0-preview/Local.Anonymizer.by.Pauline_0.1.0_aarch64.dmg">
+          Télécharger le .dmg
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Installe et lance</h2>
+      <ol class="steps">
+        <li>Double-clique sur le <code>.dmg</code> téléchargé pour le monter.</li>
+        <li>Glisse l'icône <strong>Local Anonymizer by Pauline</strong> dans le dossier <strong>Applications</strong>.</li>
+        <li>
+          <strong>Au tout premier lancement</strong>, fais <strong>clic droit sur l'icône → Ouvrir</strong> (pas double-clic).
+          macOS te dira que l'app n'est pas vérifiée — c'est normal, l'app n'est pas signée avec un compte Apple Developer
+          payant pour cette preview. Clique sur <strong>Ouvrir</strong> dans la boîte de dialogue, et c'est bon pour toujours.
+        </li>
+        <li>Choisis la langue d'interface (FR/EN), colle un texte ou importe un fichier, et clique <strong>Anonymiser</strong> ou <code>⌘ + Entrée</code>.</li>
+      </ol>
+    </section>
+
+    <section class="samples">
+      <h2>3. Fichiers de test (TXT)</h2>
+      <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 12px;">
+        Quatre exemples fictifs avec des PII variées (noms, emails, IBAN, SIRET, numéros de sécu, etc.) — à télécharger puis importer dans l'app via le bouton <strong>Importer TXT/PDF</strong>, ou simplement à copier-coller.
+      </p>
+      <ul>
+        <li>
+          <div>
+            <span class="name">Facture brouillon</span><span class="lang">· FR · court</span>
+          </div>
+          <a href="samples/exemple-facture-fr.txt" download>Télécharger</a>
+        </li>
+        <li>
+          <div>
+            <span class="name">Assignation tribunal</span><span class="lang">· FR · long</span>
+          </div>
+          <a href="samples/exemple-assignation-fr.txt" download>Télécharger</a>
+        </li>
+        <li>
+          <div>
+            <span class="name">Dense PII test</span><span class="lang">· EN · court, tout type de PII</span>
+          </div>
+          <a href="samples/sample-dense-pii-en.txt" download>Télécharger</a>
+        </li>
+        <li>
+          <div>
+            <span class="name">Consulting report</span><span class="lang">· EN · long</span>
+          </div>
+          <a href="samples/sample-consulting-en.txt" download>Télécharger</a>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Ce qu'on attend de tes retours</h2>
+      <div class="note">
+        <strong>Ce qui compte le plus :</strong> des éléments <strong>sensibles qui n'ont pas été masqués</strong> alors qu'ils auraient dû l'être (noms, emails, identifiants). C'est le seul vrai risque pour tes clients.
+        <br /><br />
+        Secondairement : des trucs anodins masqués à tort, des lenteurs, ou un comportement inattendu.
+        Tu peux cliquer sur <strong>« Couverture de détection »</strong> en bas de l'app pour voir ce qu'elle attrape avec confiance et ce qu'il faut vérifier à la main.
+      </div>
+    </section>
+
+    <footer>
+      Aperçu privé — ne pas partager le lien ni le mot de passe<br />
+      Toute question, retour, capture d'écran → écris-moi directement.
+    </footer>
+  </main>
+
+  <script>
+    // SHA-256 hash of the agreed password. Change this hash to rotate the password.
+    // To generate a new one: `echo -n "your-new-password" | shasum -a 256 | cut -d' ' -f1`
+    const PASSWORD_HASH = "3a4db05c9a205d46b3cd153ee2e07d077e36f71eaac72969f0dc27d12afdffdc";
+    const STORAGE_KEY = "preview_anonymizer_unlocked";
+
+    const gateEl = document.getElementById("gate");
+    const formEl = document.getElementById("gate-form");
+    const inputEl = document.getElementById("gate-input");
+    const errorEl = document.getElementById("gate-error");
+    const contentEl = document.getElementById("content");
+
+    async function sha256(text) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+      return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function unlock() {
+      gateEl.classList.add("hidden");
+      contentEl.hidden = false;
+    }
+
+    if (sessionStorage.getItem(STORAGE_KEY) === "1") {
+      unlock();
+    }
+
+    formEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      errorEl.textContent = "";
+      const candidate = inputEl.value.trim();
+      if (!candidate) return;
+      const hash = await sha256(candidate);
+      if (hash === PASSWORD_HASH) {
+        sessionStorage.setItem(STORAGE_KEY, "1");
+        unlock();
+      } else {
+        errorEl.textContent = "Mot de passe incorrect.";
+        inputEl.value = "";
+        inputEl.focus();
+      }
+    });
+  </script>
+</body>
+</html>
