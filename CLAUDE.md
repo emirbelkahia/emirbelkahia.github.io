@@ -8,7 +8,7 @@ Always run `git pull` before reading or editing files — other Claude sessions 
 
 ## Structure
 
-- `index.html` — homepage (links + cal.com CTA + terminal easter egg)
+- `index.html` — homepage (links + LinkedIn networking CTA + terminal easter egg)
 - `cv.html` — web CV with download button
 - `cv-ats.html` — ATS-friendly CV, no contact info, no tracking
 - `cv.pdf` — generated PDF (see `generate-pdf/`)
@@ -18,7 +18,7 @@ Always run `git pull` before reading or editing files — other Claude sessions 
 
 GoatCounter account: `emirbelkahia.goatcounter.com`
 
-All public pages and CTAs must have `data-goatcounter-click` attributes. Current tracked events on `index.html`: `linkedin`, `cv`, `medium`, `n8n`, `github`, `book-discovery`. On `cv.html`: `download-cv`.
+All public pages and CTAs must have `data-goatcounter-click` attributes. Current tracked events on `index.html`: `linkedin`, `cv`, `medium`, `n8n`, `github`, `connect-linkedin`. On `cv.html`: `download-cv`.
 
 ## Footer year
 
