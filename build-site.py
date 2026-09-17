@@ -63,7 +63,7 @@ def jsonld(data, view):
         '@type': 'Person', '@id': person_id, 'name': name,
         'givenName': profile['given_name'], 'familyName': profile['family_name'],
         'url': base, 'image': urljoin(base, profile['image']), 'jobTitle': title,
-        'description': f'{title} {profile["summary"]}',
+        'description': f'{title} {profile["description"]}',
         'sameAs': [link['url'] for link in data['links'] if link['url'].startswith('https://')],
         'knowsLanguage': [{'@type': 'Language', 'name': item['name']} for item in data['languages']],
         'knowsAbout': list(dict.fromkeys(data['skills'] + data['topics'])),
@@ -139,7 +139,9 @@ def html_context(data, view):
         'markdown_url': urljoin(profile['url'], 'cv.md'),
         'llms_url': urljoin(profile['url'], 'llms.txt'),
         'tagline': profile['tagline'], 'focus': profile['focus'],
-        'description': f'{title} {profile["summary"]}',
+        # summary is the visible first-person text; description is the third-person
+        # sentence for meta descriptions and JSON-LD, where a snippet reads as a bio.
+        'description': f'{title} {profile["description"]}',
         'summary': f'{short_title} {profile["summary"]}',
         'linkedin_label': urlsplit(links['linkedin']['url']).netloc.removeprefix('www.')
                           + urlsplit(links['linkedin']['url']).path.rstrip('/'),

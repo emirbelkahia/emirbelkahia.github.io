@@ -42,7 +42,9 @@ use `YYYY-MM`, and employers refer to entries in `companies`. Strings are shared
 by default. Where the existing web CV uses shorter wording, explicit
 `{"web": "short version", "ats": "expanded version"}` values preserve that choice.
 A bullet with `web: null` appears only in the expanded formats. Markdown uses
-the expanded ATS wording. These content fields are plain text, not raw HTML.
+the expanded ATS wording. `profile.summary` is the visible first-person summary;
+`profile.description` is the third-person sentence used for meta descriptions
+and JSON-LD. These content fields are plain text, not raw HTML.
 
 To build **all formats, including the PDF**, install Google Chrome (the script
 uses its macOS application path), configure the ignored `.env`, then run:
