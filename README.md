@@ -13,6 +13,9 @@ Source code for my personal website and CV — hosted on GitHub Pages.
 | `cv.html` | Web CV (public, styled version) |
 | `cv-ats.html` | ATS-friendly CV source — no contact details (bot-safe) |
 | `cv.pdf` | PDF generated from `cv-ats.html` with email & phone injected at build time |
+| `assets/` | External CSS & JS (`index.css`, `cv.css`, `terminal.js`) |
+| `robots.txt` | Crawl directives — search engines and AI agents explicitly allowed |
+| `sitemap.xml` | URL discovery for crawlers |
 
 ## Generating the PDF
 
