@@ -1,4 +1,4 @@
-# Keep test tooling out of the GitHub Pages output.
+# Keep build sources and test tooling out of the GitHub Pages output.
 exclude:
   - node_modules
   - tests
@@ -7,3 +7,6 @@ exclude:
   - package.json
   - package-lock.json
   - playwright.config.js
+  - build-site.py
+  - content
+  - templates

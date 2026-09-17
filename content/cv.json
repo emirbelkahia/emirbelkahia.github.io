@@ -1,0 +1,270 @@
+{
+  "profile": {
+    "given_name": "Emir",
+    "family_name": "Belkahia",
+    "url": "https://emirbelkahia.com/",
+    "image": "profile-pic.jpeg",
+    "tagline": "Practical AI for CS orgs",
+    "focus": "Business Acumen · AI Depth · Value Realization",
+    "summary": "with 13+ years in enterprise B2B. I combine business acumen with hands-on AI expertise to help customers realize measurable value — and I build the tools to accelerate it.",
+    "description": "with 13+ years in enterprise B2B. Combines business acumen with hands-on AI expertise to help customers realize measurable value, and builds the tools to accelerate it.",
+    "highlights": [
+      "15 consecutive quarters GRR >100% — Presidents Club 2023 & 2024",
+      "Bridges customer business goals and technical capabilities",
+      "40+ tools built with AI — from client-facing outcomes to internal CS tooling"
+    ]
+  },
+  "links": [
+    {
+      "key": "linkedin",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/in/emirbelkahia/",
+      "description": "Career, posts & professional journey"
+    },
+    {
+      "key": "cv",
+      "title": "CV",
+      "url": "/cv.html",
+      "description": "Work history and experience"
+    },
+    {
+      "key": "medium",
+      "title": "Medium",
+      "url": "https://medium.com/@emirbelkahia",
+      "description": "Articles on Customer Success & clear thinking"
+    },
+    {
+      "key": "n8n",
+      "title": "n8n Creator",
+      "url": "https://n8n.io/creators/emirbelkahia/",
+      "description": "CS automation workflows & templates"
+    },
+    {
+      "key": "github",
+      "title": "GitHub",
+      "url": "https://github.com/emirbelkahia",
+      "description": "Tools inspired by real CS practice"
+    }
+  ],
+  "skills": [
+    "Value Realization & Business Reviews",
+    "Strategic Account Management",
+    "AI Tool Building & LLM Agents",
+    "Technical Enablement & Adoption",
+    "Customer Success Playbook Design",
+    "RAG & Workflow Automation",
+    "Solution Architecture for CS",
+    "Cross-Functional Program Management",
+    "AI Agent Orchestration"
+  ],
+  "topics": [
+    "Customer Success Management",
+    "Enterprise SaaS",
+    "Search relevance",
+    "AI agents & LLM orchestration",
+    "Retrieval-Augmented Generation",
+    "Workflow automation",
+    "Model Context Protocol"
+  ],
+  "companies": {
+    "algolia": {
+      "name": "Algolia",
+      "url": "https://www.algolia.com"
+    },
+    "kurmi": {
+      "name": "Kurmi Software"
+    },
+    "wavestone": {
+      "name": "Wavestone"
+    }
+  },
+  "experience": [
+    {
+      "title": "Staff Customer Success Manager",
+      "company": "algolia",
+      "location": "Paris, France",
+      "start": "2025-04",
+      "end": null,
+      "bullets": [
+        {
+          "ats": "Managed a ~$6M ARR portfolio of 10–12 Strategic accounts, including 2 accounts >$1M ARR with operations spanning 50+ countries and 10+ internal teams.",
+          "web": "Managed a ~$6M ARR portfolio of 10–12 Strategic accounts, including 2 accounts >$1M ARR spanning 50+ countries and 10+ internal teams."
+        },
+        "Enabled +5 to +15% conversion rate uplift and up to 10x ROI for e-commerce clients via success plans, adoption playbooks, and hands-on search optimization.",
+        {
+          "ats": "Led solution architecture workshops with enterprise clients and executive sponsors to scope AI and search integrations, translating business objectives into technical constraints and deployment milestones.",
+          "web": "Led solution architecture workshops with enterprise clients and executive sponsors to scope AI and search integrations."
+        },
+        {
+          "ats": "Built AI-powered tools including RAG pipelines, real-time voice AI workflows, and LLM agents to compound team efficiency and customer intelligence.",
+          "web": "Built AI-powered tools including RAG pipelines, real-time voice AI workflows, and LLM agents to compound team efficiency."
+        },
+        {
+          "ats": "Coached multiple peers on account strategy and execution, codified best practices into team-wide playbooks, and served as interim CS manager (Jan 2026) during parental leave coverage.",
+          "web": "Coached peers on account strategy, codified best practices into team-wide playbooks, and served as interim CS manager (Jan 2026)."
+        },
+        {
+          "ats": "Delivered talks at Tech for Retail (Paris) and co-hosted partner webinars on agentic AI, search relevance, and agent protocols (MCP, UCP), building external visibility for the CS function.",
+          "web": "Delivered talks at Tech for Retail (Paris) and co-hosted partner webinars on agentic AI and agent protocols (MCP, UCP)."
+        }
+      ]
+    },
+    {
+      "title": "Senior Customer Success Manager",
+      "company": "algolia",
+      "location": "Paris, France",
+      "start": "2021-04",
+      "end": "2025-04",
+      "bullets": [
+        "Managed a ~$3M ARR portfolio of 30–40 Enterprise accounts across e-commerce B2C and B2B verticals, operating across high-touch and scaled engagement tiers.",
+        {
+          "ats": "Awarded Algolia Presidents Club 2023 and 2024, the top company recognition for revenue retention and customer growth performance.",
+          "web": "Awarded Algolia Presidents Club 2023 and 2024, the top company recognition for revenue retention and customer growth."
+        },
+        "Delivered structured Business Reviews with data-driven insights, drove renewals in uncertain contexts, and created onboarding guides adopted team-wide.",
+        {
+          "ats": "Delivered onsite and remote enablement sessions, group-wide training across multiple countries, and change management and champion building programs for enterprise clients in high-complexity industries.",
+          "web": "Delivered onsite and remote enablement sessions and change management programs for enterprise clients in high-complexity industries."
+        }
+      ]
+    },
+    {
+      "title": "Technical Account Manager",
+      "company": "kurmi",
+      "location": "Boulogne-Billancourt, France",
+      "start": "2016-12",
+      "end": "2021-04",
+      "bullets": [
+        {
+          "ats": "Owned the end-to-end technical relationship for enterprise telecom clients: from pre-sales scoping through delivery, adoption, and expansion.",
+          "web": "Owned end-to-end technical relationship for enterprise telecom clients: pre-sales scoping through delivery, adoption, and expansion."
+        },
+        {
+          "ats": "Led technical discovery calls, product demos, and POCs during the sales cycle, translating customer needs into technical requirements.",
+          "web": "Led technical discovery calls, product demos, and POCs, translating customer needs into technical requirements."
+        },
+        "Collaborated with Sales to close deals by addressing technical objections and architecting tailored solutions.",
+        {
+          "ats": "Post-sale, ensured successful deployment and drove adoption through hands-on technical enablement.",
+          "web": null
+        }
+      ]
+    },
+    {
+      "title": "Consultant – Digital Transformation",
+      "company": "wavestone",
+      "location": "Paris, France",
+      "start": "2012-09",
+      "end": "2016-11",
+      "bullets": [
+        {
+          "ats": "Led an 18-month enterprise telephony renewal at a major French investment bank: managed two parallel RFPs from requirements gathering through vendor selection to full production rollout, supervising a junior consultant.",
+          "web": "Led an 18-month enterprise telephony renewal at a major French investment bank: managed two parallel RFPs from requirements gathering through vendor selection to full production rollout."
+        },
+        {
+          "ats": "Led additional digital transformation programs for enterprise clients: system architecture, process design, and operational alignment.",
+          "web": "Led additional digital transformation programs: system architecture, process design, and operational alignment."
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Gainsight AI Overlay",
+      "description": {
+        "ats": "Mini-SaaS built by a CSM for CSMs: voice brain dump → LLM analysis → automatic CRM field population with confidence scoring, reducing administrative work to near zero. Chrome Extension bridge on Gainsight. (Next.js, OpenAI API, Chrome Extension MV3)",
+        "web": "Voice brain dump → LLM analysis → automatic CRM field population with confidence scoring. Chrome Extension bridge on Gainsight. (Next.js, OpenAI API, Chrome Extension MV3)"
+      }
+    },
+    {
+      "name": "Real-Time Voice Agent",
+      "description": {
+        "ats": "Built a real-time voice agent with the full STT → LLM → TTS pipeline using Pipecat: speech input, GPT-4o streaming, sentence aggregation, and Gradium text-to-speech output via WebSocket. (Python, Pipecat, OpenAI SDK, FastAPI)",
+        "web": "Full STT → LLM → TTS pipeline using Pipecat: GPT-4o streaming, sentence aggregation, WebSocket output. (Python, Pipecat, FastAPI)"
+      }
+    },
+    {
+      "name": {
+        "ats": "RAG Pipeline with LLM Embeddings",
+        "web": "RAG Pipeline"
+      },
+      "description": {
+        "ats": "Automated knowledge base pipeline: Google Drive trigger → Embeddings API → Pinecone vector store → RAG chat agent. Full retrieval-augmented generation pattern. (n8n, OpenAI API, Pinecone)",
+        "web": "Google Drive trigger → Embeddings API → Pinecone vector store → RAG chat agent. (n8n, OpenAI API, Pinecone)"
+      }
+    },
+    {
+      "name": "LLM Business Review Agent",
+      "description": {
+        "ats": "Voice-to-slides automation: Telegram voice note → Whisper STT → PII guardrails → LLM structured JSON output → Google Slides generation. Shipped for CS team internal use. (n8n, OpenAI API)",
+        "web": "Telegram voice note → Whisper STT → PII guardrails → LLM structured JSON → Google Slides. (n8n, OpenAI API)"
+      }
+    }
+  ],
+  "project_footer": {
+    "web": "40+ projects shipped.",
+    "ats": "40+ projects shipped, including Chrome Extensions, LLM-as-Judge QA workflows, and CRM automation suites."
+  },
+  "education": {
+    "school": "EPITA",
+    "url": "https://www.epita.fr",
+    "degree": "Master's in Computer Engineering",
+    "year": "2012"
+  },
+  "certifications": [
+    {
+      "name": {
+        "ats": "Certified Customer Success Manager (CCSM) Levels 1–5",
+        "web": "CCSM Levels 1–5"
+      },
+      "issuer": "SuccessCOACHING",
+      "year": "2026"
+    },
+    {
+      "name": "E-Commerce UX Professional, Tier 2",
+      "issuer": "Baymard Institute",
+      "year": "2023"
+    }
+  ],
+  "languages": [
+    {
+      "name": "French",
+      "level": "Native"
+    },
+    {
+      "name": "English",
+      "level": "Full Professional"
+    }
+  ],
+  "interests": [
+    {
+      "label": "Video",
+      "text": "GoPro & drone storytelling and editing",
+      "web_order": 1
+    },
+    {
+      "label": "Reading",
+      "text": {
+        "ats": "Strategic non-fiction (The Trusted Advisor, Influence by Cialdini, 7 Pillars of Customer Success)",
+        "web": "Strategic non-fiction (e.g. Cialdini, Covey, 7 Pillars of Customer Success, The Trusted Advisor)"
+      },
+      "web_order": 0
+    },
+    {
+      "label": {
+        "ats": "Running",
+        "web": "Discipline"
+      },
+      "text": {
+        "ats": "Long-distance, consistency over speed",
+        "web": "Long-distance runner mindset, focused on consistency and endurance"
+      },
+      "web_order": 2
+    },
+    {
+      "label": "Gaming",
+      "text": "Automation & narrative-driven titles (Factorio, The Last of Us)",
+      "web_order": 3
+    }
+  ]
+}

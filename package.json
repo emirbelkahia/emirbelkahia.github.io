@@ -2,7 +2,11 @@
   "name": "emirbelkahia-site-checks",
   "private": true,
   "scripts": {
-    "test": "playwright test"
+    "build": "python3 build-site.py",
+    "build:pdf": "python3 build-site.py --pdf",
+    "check:build": "python3 build-site.py --check && python3 -m unittest discover -s tests -p '*_test.py'",
+    "test": "playwright test",
+    "pretest": "npm run check:build"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1",
