@@ -1,8 +1,7 @@
 (function() {
-  // Secret word trigger
-  var secretWord = 'terminal';
-  var buffer = '';
-  var bufferTimer = null;
+  // The secret word is detected by the small inline loader in index.html, which
+  // loads this file and then calls window.__openTerminal(). Nothing here runs
+  // until a visitor actually types it.
 
   // File system
   var fs = {
@@ -34,6 +33,28 @@
   var history = [];
   var historyIdx = -1;
   var termOpen = false;
+
+  // The overlay markup lives here rather than in index.html, so the page ships
+  // no inert easter-egg DOM.
+  document.body.insertAdjacentHTML('beforeend', `
+    <div id="terminal-overlay">
+      <div class="term-window">
+        <div class="term-titlebar">
+          <div class="term-dot red" id="term-close"></div>
+          <div class="term-dot yellow"></div>
+          <div class="term-dot green"></div>
+          <span class="term-title" id="term-title">emirbelkahia — zsh</span>
+        </div>
+        <div class="term-body" id="term-body">
+          <div id="term-output"></div>
+          <div class="term-prompt-line">
+            <span class="term-prompt" id="term-prompt"></span>
+            <input type="text" id="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
 
   var overlay = document.getElementById('terminal-overlay');
   var output = document.getElementById('term-output');
@@ -325,24 +346,11 @@
     setTimeout(function() {
       overlay.classList.remove('active');
     }, 300);
-    buffer = '';
   }
 
-  // Secret word detection
+  // Escape closes. Opening is triggered from index.html via window.__openTerminal.
   document.addEventListener('keydown', function(e) {
-    if (termOpen) {
-      if (e.key === 'Escape') { closeTerminal(); e.preventDefault(); return; }
-      return;
-    }
-    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-      buffer += e.key.toLowerCase();
-      clearTimeout(bufferTimer);
-      bufferTimer = setTimeout(function() { buffer = ''; }, 2000);
-      if (buffer.includes(secretWord)) {
-        buffer = '';
-        openTerminal();
-      }
-    }
+    if (termOpen && e.key === 'Escape') { closeTerminal(); e.preventDefault(); }
   });
 
   // Terminal input handling
@@ -372,4 +380,7 @@
 
   // Close button
   document.getElementById('term-close').addEventListener('click', closeTerminal);
+
+  // Entry point for the inline loader, and for reopening after a close.
+  window.__openTerminal = openTerminal;
 })();

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Emir Belkahia</title>
   <meta name="description"
-    content="Emir Belkahia - Strategic Customer Success professional, AI builder, and writer. Practical AI for CS orgs." />
+    content="Emir Belkahia - Staff Customer Success Manager, AI builder, and writer. Practical AI for CS orgs." />
   <link rel="canonical" href="https://emirbelkahia.com/" />
   <link rel="stylesheet" href="assets/index.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
         "@id": "https://emirbelkahia.com/#website",
         "url": "https://emirbelkahia.com/",
         "name": "Emir Belkahia",
-        "description": "Personal site of Emir Belkahia: Strategic Customer Success professional, AI builder, and writer.",
+        "description": "Personal site of Emir Belkahia: Staff Customer Success Manager, AI builder, and writer.",
         "inLanguage": "en",
         "publisher": {
           "@id": "https://emirbelkahia.com/#person"
@@ -69,7 +69,7 @@
         "url": "https://emirbelkahia.com/",
         "image": "https://emirbelkahia.com/profile-pic.jpeg",
         "jobTitle": "Staff Customer Success Manager",
-        "description": "Strategic Customer Success professional with 13+ years in enterprise B2B. Combines business acumen with hands-on AI expertise to help customers realize measurable value, and builds the tools to accelerate it.",
+        "description": "Staff Customer Success Manager with 13+ years in enterprise B2B. Combines business acumen with hands-on AI expertise to help customers realize measurable value, and builds the tools to accelerate it.",
         "sameAs": [
           "https://www.linkedin.com/in/emirbelkahia/",
           "https://medium.com/@emirbelkahia",
@@ -129,7 +129,7 @@
     <main>
       <img src="profile-pic.jpeg" alt="Emir Belkahia" class="profile-image" />
       <h1>Emir Belkahia</h1>
-      <p class="subtitle">Strategic Customer Success &middot; AI Builder</p>
+      <p class="subtitle">Staff Customer Success Manager &middot; AI Builder</p>
       <p class="tagline">Practical AI for CS orgs</p>
       <nav class="links" aria-label="Profiles, writing and code">
       <a href="https://www.linkedin.com/in/emirbelkahia/" target="_blank" rel="me noopener" data-goatcounter-click="linkedin">
@@ -164,26 +164,34 @@
     </footer>
   </div>
 
-  <!-- Terminal Easter Egg -->
-  <div id="terminal-overlay">
-    <div class="term-window">
-      <div class="term-titlebar">
-        <div class="term-dot red" id="term-close"></div>
-        <div class="term-dot yellow"></div>
-        <div class="term-dot green"></div>
-        <span class="term-title" id="term-title">emirbelkahia — zsh</span>
-      </div>
-      <div class="term-body" id="term-body">
-        <div id="term-output"></div>
-        <div class="term-prompt-line">
-          <span class="term-prompt" id="term-prompt"></span>
-          <input type="text" id="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" />
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <script src="assets/terminal.js" defer></script>
+  <script>
+    // Easter egg. Detect the secret word here, in ~20 lines, and only then fetch
+    // assets/terminal.js + assets/terminal.css. Visitors who never type it pay
+    // nothing for it.
+    (function () {
+      var word = 'terminal', buf = '', timer = null, loading = false;
+      document.addEventListener('keydown', function (e) {
+        if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
+        buf += e.key.toLowerCase();
+        clearTimeout(timer);
+        timer = setTimeout(function () { buf = ''; }, 2000);
+        if (buf.indexOf(word) === -1) return;
+        buf = '';
+        if (window.__openTerminal) { window.__openTerminal(); return; }
+        if (loading) return;
+        loading = true;
+        var css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = 'assets/terminal.css';
+        document.head.appendChild(css);
+        var js = document.createElement('script');
+        js.src = 'assets/terminal.js';
+        js.onload = function () { window.__openTerminal(); };
+        document.head.appendChild(js);
+      });
+    })();
+  </script>
 </body>
 
 </html>
