@@ -61,7 +61,7 @@ Rules:
 - **`CLAUDE.md` and `README.md` are served publicly** by GitHub Pages at `emirbelkahia.com/CLAUDE.md` and `/README.md`, verified live (HTTP 200, `text/markdown`). Jekyll copies front-matter-less `.md` files verbatim; it only drops dotfiles, which is why `.env.example` 404s. Both are `Disallow`ed in `robots.txt` since they are agent instructions and build docs, not site content.
 - **Regenerate the sitemap with `./build-sitemap.sh`** after changing a listed page. It reads each `lastmod` from `git log`, so a hand-edited sitemap will drift and start lying about freshness. `changefreq` and `priority` are deliberately absent: Google ignores both.
 
-Not done yet (layer 2): `llms.txt`, `llms-full.txt` and markdown mirrors (`cv.md`). `.nojekyll` is not required to serve front-matter-less Markdown and is not planned here.
+Not done yet (layer 2): `llms.txt`, `llms-full.txt` and markdown mirrors (`cv.md`). `.nojekyll` is not planned: front-matter-less Markdown is already served without it, and adding it would newly expose `.env.example` and other dotfiles while disabling the `_config.yml` excludes that keep the test tooling out of the published site.
 
 ## Verification
 

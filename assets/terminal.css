@@ -49,6 +49,8 @@
 .term-dot.red {
   width: 24px; height: 24px;
   padding: 6px; border: 0;
+  /* Pull the hit area back so the visible dot keeps the 8px traffic-light rhythm. */
+  margin: 0 2px 0 -6px;
   background: transparent; cursor: pointer;
 }
 .term-dot.red::before {
