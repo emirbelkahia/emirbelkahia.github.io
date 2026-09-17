@@ -28,6 +28,13 @@ The site is built to be cheap for agents and crawlers to read. When editing page
 - **Every new public page needs** a `<link rel="canonical">`, a `<meta name="description">`, the GoatCounter snippet, and a line in `build-sitemap.sh`.
 - **`footer` must not be nested inside `main`.** A `footer` inside `main`/`article`/`section`/`aside`/`nav` loses its `contentinfo` landmark. On `index.html` the styled card is a `div.container`; `main` and `footer` are siblings inside it.
 
+## Assets and the PDF
+
+- **`profile-pic.jpeg` is 400x400 and must stay that way.** It is displayed at 160px on both pages, so 400 covers a 2x screen with headroom and falls 17% short of a 3x one, which is invisible on a circular avatar. It was 800x800 at 120 KB, which was **92% of the homepage payload** — more than the HTML, the CSS and every icon combined. Do not commit a bigger one.
+- **Regenerate `cv.pdf` with `./generate-pdf.sh` in the same commit as any `cv-ats.html` change.** The PDF is a build output of that file and nothing checks that they agree. Changing the job title in `cv-ats.html` without rebuilding left the PDF claiming the old one.
+- `generate-pdf.sh` **parses** `.env` instead of sourcing it. `source` word-splits an unquoted value containing spaces, so a phone number broke the script outright. Do not switch it back to `source`.
+- The script runs a **lossless `qpdf` pass** at the end if qpdf is installed, worth about 20%: Chrome emits many small uncompressed objects and qpdf repacks them into compressed object streams without touching the image or the text. It is skipped with a note if qpdf is missing, so the build never fails on it.
+
 ## Icons
 
 Six files, and it should stay six. The set was a 27-file generator dump until it was cut down; do not paste another one in.

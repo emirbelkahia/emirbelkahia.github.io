@@ -12,7 +12,7 @@ Source code for my personal website and CV — hosted on GitHub Pages.
 | `index.html` | Homepage |
 | `cv.html` | Web CV (public, styled version) |
 | `cv-ats.html` | ATS-friendly CV source — no contact details (bot-safe) |
-| `cv.pdf` | PDF generated from `cv-ats.html` with email & phone injected at build time |
+| `cv.pdf` | PDF generated from `cv-ats.html` with email & phone injected at build time. Rebuild it whenever `cv-ats.html` changes |
 | `assets/` | External CSS & JS. `terminal.js` / `terminal.css` load on demand |
 | `favicon.ico` + `favicon/` | Icon set — 6 files, see CLAUDE.md before adding any |
 | `robots.txt` | Crawl directives — pages open to all crawlers, `cv.pdf` excluded |
