@@ -13,7 +13,17 @@ if [ ! -f "$ENV_FILE" ]; then
   exit 1
 fi
 
-source "$ENV_FILE"
+# Parse .env rather than sourcing it. `source` word-splits an unquoted value
+# containing spaces, so a phone number like "+33 6 12 34 56 78" made bash try
+# to run part of it as a command. Parsing keeps the value whole either way, and
+# tolerates surrounding quotes if they are present.
+read_env() {
+  sed -n "s/^[[:space:]]*$1[[:space:]]*=[[:space:]]*//p" "$ENV_FILE" \
+    | head -1 | sed -e 's/^"\(.*\)"$/\1/' -e "s/^'\(.*\)'$/\1/"
+}
+
+CV_EMAIL=$(read_env CV_EMAIL)
+CV_PHONE=$(read_env CV_PHONE)
 
 if [ -z "$CV_EMAIL" ] || [ -z "$CV_PHONE" ]; then
   echo "Error: CV_EMAIL and CV_PHONE must be set in .env"
@@ -40,5 +50,19 @@ with open('$TEMP_HTML', 'w') as f:
   "file://$TEMP_HTML" 2>/dev/null
 
 rm "$TEMP_HTML"
+
+# Chrome emits a lot of small uncompressed objects. qpdf repacks them into
+# compressed object streams, which is lossless: it does not touch the embedded
+# image or the text. Worth about 20%. Skipped cleanly if qpdf is not installed.
+if command -v qpdf >/dev/null 2>&1; then
+  BEFORE=$(wc -c < "$OUTPUT_PDF" | tr -d ' ')
+  qpdf --object-streams=generate --compress-streams=y --recompress-flate \
+       --compression-level=9 "$OUTPUT_PDF" "$OUTPUT_PDF.opt" \
+    && mv "$OUTPUT_PDF.opt" "$OUTPUT_PDF"
+  AFTER=$(wc -c < "$OUTPUT_PDF" | tr -d ' ')
+  echo "Compressed with qpdf: $BEFORE -> $AFTER bytes."
+else
+  echo "Note: qpdf not found, skipping compression (brew install qpdf)."
+fi
 
 echo "Done: cv.pdf generated."
