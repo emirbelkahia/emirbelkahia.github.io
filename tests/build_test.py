@@ -1,0 +1,98 @@
+"""Regression checks for the shared source, escaping and read-only freshness check."""
+import copy
+import importlib.util
+import json
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+
+ROOT = Path(__file__).resolve().parents[1]
+spec = importlib.util.spec_from_file_location('build_site', ROOT / 'build-site.py')
+build = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(build)
+
+
+class BuildTests(unittest.TestCase):
+    def setUp(self):
+        self.data = json.loads((ROOT / 'content/cv.json').read_text())
+
+    def test_shared_facts_propagate_without_changing_source(self):
+        self.data['experience'][0]['title'] = 'Principal Customer Success Manager'
+        self.data['experience'][0]['start'] = '2026-07'
+        self.data['skills'].append('Shared skill fixture')
+        original = copy.deepcopy(self.data)
+        outputs = build.render_outputs(self.data)
+        self.assertEqual(self.data, original)
+        self.assertEqual(outputs, build.render_outputs(self.data))
+        for name, text in outputs.items():
+            self.assertIn('Principal Customer Success Manager', text, name)
+        for name in ('index.html', 'cv.html'):
+            graph = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>',
+                                        outputs[name], re.S)[1])['@graph']
+            person = next(item for item in graph if item['@type'] == 'Person')
+            self.assertEqual(person['worksFor'][0]['startDate'], '2026-07')
+            self.assertIn('Shared skill fixture', person['knowsAbout'])
+        for name in ('cv.html', 'cv-ats.html'):
+            self.assertIn('Jul 2026', outputs[name])
+            self.assertIn('Shared skill fixture', outputs[name])
+        self.assertIn('2026-07 – Present', outputs['cv.md'])
+        self.assertIn('Shared skill fixture', outputs['cv.md'])
+
+    def test_content_cannot_break_html_or_jsonld(self):
+        text = '</script><script>alert("x")</script> & [link]'
+        self.data['profile']['given_name'] = text
+        outputs = build.render_outputs(self.data)
+        for name in ('index.html', 'cv.html', 'cv-ats.html'):
+            self.assertNotIn(text, outputs[name])
+            self.assertIn('&lt;/script&gt;', outputs[name])
+        for name in ('index.html', 'cv.html'):
+            graph = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>',
+                                        outputs[name], re.S)[1])['@graph']
+            person = next(item for item in graph if item['@type'] == 'Person')
+            self.assertEqual(person['givenName'], text)
+        self.assertIn(r'\[link\]', outputs['cv.md'])
+        self.assertNotIn('<script>', outputs['cv.md'])
+
+    def test_cli_detects_drift_without_writing_and_ignores_private_env(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for folder in ('content', 'templates'):
+                shutil.copytree(ROOT / folder, root / folder)
+            shutil.copy(ROOT / 'build-site.py', root)
+            (root / '.env').write_text('CV_EMAIL=private-fixture@example.invalid\nCV_PHONE=PRIVATE-PHONE\n')
+
+            def run(*args):
+                return subprocess.run([sys.executable, str(root / 'build-site.py'), *args],
+                                      capture_output=True, text=True)
+
+            self.assertEqual(run().returncode, 0)
+            paths = [root / name for name in build.render_outputs(self.data)]
+            for path in paths:
+                self.assertNotIn('private-fixture', path.read_text())
+                self.assertNotIn('PRIVATE-PHONE', path.read_text())
+            before = {path: path.stat().st_mtime_ns for path in paths}
+            self.assertEqual(run().returncode, 0)
+            self.assertEqual(before, {path: path.stat().st_mtime_ns for path in paths})
+            (root / 'cv.md').write_text('manual drift\n')
+            (root / 'llms.txt').unlink()
+            result = run('--check')
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('cv.md', result.stderr)
+            self.assertIn('llms.txt', result.stderr)
+            self.assertEqual((root / 'cv.md').read_text(), 'manual drift\n')
+            self.assertFalse((root / 'llms.txt').exists())
+            self.assertEqual(run().returncode, 0)
+            self.assertEqual(run('--check').returncode, 0)
+            self.data['experience'][0]['start'] = '2026-13'
+            (root / 'content/cv.json').write_text(json.dumps(self.data))
+            before = {path: path.read_bytes() for path in paths}
+            self.assertNotEqual(run().returncode, 0)
+            self.assertEqual(before, {path: path.read_bytes() for path in paths})
+
+
+if __name__ == '__main__':
+    unittest.main()

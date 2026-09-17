@@ -1,0 +1,15 @@
+# Emir Belkahia
+
+> Staff Customer Success Manager. Practical AI for CS orgs.
+
+## CV
+
+- [CV in Markdown](https://emirbelkahia.com/cv.md): Full public experience, skills, projects and education.
+- [CV for browsers](https://emirbelkahia.com/cv.html): Styled web version with concise descriptions.
+
+## Profiles and writing
+
+- [LinkedIn](https://www.linkedin.com/in/emirbelkahia/): Career, posts & professional journey.
+- [Medium](https://medium.com/@emirbelkahia): Articles on Customer Success & clear thinking.
+- [n8n Creator](https://n8n.io/creators/emirbelkahia/): CS automation workflows & templates.
+- [GitHub](https://github.com/emirbelkahia): Tools inspired by real CS practice.

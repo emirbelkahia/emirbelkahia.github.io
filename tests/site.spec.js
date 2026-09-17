@@ -96,8 +96,27 @@ test('the committed PDF contains the current ATS content', async ({ page }) => {
     expect(pdf.includes(normalize(text)), `PDF missing ATS content: ${normalize(text)}`).toBe(true);
   }
   const source = readFileSync('cv-ats.html', 'utf8');
-  const sentinel = '<em>Email &amp; phone available on PDF version.</em> |\n        <a href="https://www.linkedin.com/in/emirbelkahia" target="_blank">linkedin.com/in/emirbelkahia</a>';
-  expect(source.split(sentinel)).toHaveLength(2);
+  expect(source.match(/<!-- PDF_CONTACT -->.*?<!-- \/PDF_CONTACT -->/gs)).toHaveLength(1);
+});
+
+test('agents can discover the public Markdown CV', async ({ page, request }) => {
+  const content = JSON.parse(readFileSync('content/cv.json', 'utf8'));
+  await page.goto('/');
+  await expect(page.locator('link[rel="describedby"]')).toHaveAttribute('href', 'https://emirbelkahia.com/llms.txt');
+  await page.goto('/cv.html');
+  await expect(page.locator('link[rel="alternate"][type="text/markdown"]')).toHaveAttribute('href', 'https://emirbelkahia.com/cv.md');
+  await expect(page.locator('link[rel="describedby"]')).toHaveAttribute('href', 'https://emirbelkahia.com/llms.txt');
+  const markdownResponse = await request.get('/cv.md');
+  const guideResponse = await request.get('/llms.txt');
+  expect(markdownResponse.status()).toBe(200);
+  expect(guideResponse.status()).toBe(200);
+  const markdown = await markdownResponse.text();
+  const guide = await guideResponse.text();
+  expect(guide).toContain('[CV in Markdown](https://emirbelkahia.com/cv.md)');
+  expect(markdown).toContain(`# ${content.profile.given_name} ${content.profile.family_name}`);
+  expect(markdown).toContain(`${content.experience[0].start} – Present`);
+  expect(markdown).not.toContain('<script');
+  expect(guide).not.toContain('cv.pdf');
 });
 
 for (const asset of ['terminal.css', 'terminal.js']) {

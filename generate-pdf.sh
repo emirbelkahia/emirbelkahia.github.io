@@ -8,6 +8,9 @@ TEMP_HTML="$SCRIPT_DIR/_cv-ats-pdf.html"
 OUTPUT_PDF="$SCRIPT_DIR/cv.pdf"
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
+python3 "$SCRIPT_DIR/build-site.py" --check
+trap 'rm -f "$TEMP_HTML" "$OUTPUT_PDF.opt"' EXIT
+
 if [ ! -f "$ENV_FILE" ]; then
   echo "Error: .env file not found. Copy .env.example to .env and fill in your details."
   exit 1
@@ -30,18 +33,21 @@ if [ -z "$CV_EMAIL" ] || [ -z "$CV_PHONE" ]; then
   exit 1
 fi
 
-python3 -c "
-with open('$SOURCE_HTML', 'r') as f:
-    html = f.read()
+CV_EMAIL="$CV_EMAIL" CV_PHONE="$CV_PHONE" python3 - "$SOURCE_HTML" "$TEMP_HTML" <<'PY'
+from html import escape
+import os
+from pathlib import Path
+import re
+import sys
 
-html = html.replace(
-    '<em>Email &amp; phone available on PDF version.</em> |\n        <a href=\"https://www.linkedin.com/in/emirbelkahia\" target=\"_blank\">linkedin.com/in/emirbelkahia</a>',
-    '$CV_EMAIL | $CV_PHONE | <a href=\"https://www.linkedin.com/in/emirbelkahia\" target=\"_blank\">linkedin.com/in/emirbelkahia</a>'
-)
-
-with open('$TEMP_HTML', 'w') as f:
-    f.write(html)
-"
+source = Path(sys.argv[1]).read_text(encoding='utf-8')
+contact = escape(os.environ['CV_EMAIL']) + ' | ' + escape(os.environ['CV_PHONE'])
+html, count = re.subn(r'<!-- PDF_CONTACT -->.*?<!-- /PDF_CONTACT -->',
+                      lambda _: contact, source, flags=re.DOTALL)
+if count != 1:
+    raise SystemExit('Expected exactly one PDF contact placeholder in cv-ats.html')
+Path(sys.argv[2]).write_text(html, encoding='utf-8')
+PY
 
 "$CHROME" --headless=new --no-sandbox \
   --print-to-pdf="$OUTPUT_PDF" \
