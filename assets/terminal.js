@@ -33,14 +33,15 @@
   var history = [];
   var historyIdx = -1;
   var termOpen = false;
+  var closeTimer;
 
   // The overlay markup lives here rather than in index.html, so the page ships
   // no inert easter-egg DOM.
   document.body.insertAdjacentHTML('beforeend', `
-    <div id="terminal-overlay">
+    <dialog id="terminal-overlay" aria-labelledby="term-title">
       <div class="term-window">
         <div class="term-titlebar">
-          <div class="term-dot red" id="term-close"></div>
+          <button type="button" class="term-dot red" id="term-close" aria-label="Close terminal"></button>
           <div class="term-dot yellow"></div>
           <div class="term-dot green"></div>
           <span class="term-title" id="term-title">emirbelkahia — zsh</span>
@@ -49,11 +50,11 @@
           <div id="term-output"></div>
           <div class="term-prompt-line">
             <span class="term-prompt" id="term-prompt"></span>
-            <input type="text" id="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" />
+            <input type="text" id="term-input" aria-label="Terminal command" autocomplete="off" autocapitalize="off" spellcheck="false" />
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   `);
 
   var overlay = document.getElementById('terminal-overlay');
@@ -259,7 +260,7 @@
     var parts = trimmed.split(/\s+/);
     var cmd = parts[0].toLowerCase();
     var args = parts.slice(1);
-    if (commands[cmd]) {
+    if (Object.prototype.hasOwnProperty.call(commands, cmd)) {
       commands[cmd](args);
     } else {
       addLine('zsh: command not found: ' + escHtml(cmd));
@@ -326,14 +327,16 @@
   // Open / close terminal
   function openTerminal() {
     if (termOpen) return;
+    clearTimeout(closeTimer);
     termOpen = true;
     showBanner();
     updatePrompt();
     overlay.classList.add('active');
+    if (!overlay.open) overlay.showModal();
     requestAnimationFrame(function() {
       overlay.classList.add('visible');
     });
-    setTimeout(function() { input.focus(); }, 100);
+    input.focus();
     if (window.goatcounter && window.goatcounter.count) {
       window.goatcounter.count({ path: 'terminal-easter-egg', event: true });
     }
@@ -343,14 +346,16 @@
     if (!termOpen) return;
     termOpen = false;
     overlay.classList.remove('visible');
-    setTimeout(function() {
+    closeTimer = setTimeout(function() {
       overlay.classList.remove('active');
+      overlay.close();
     }, 300);
   }
 
-  // Escape closes. Opening is triggered from index.html via window.__openTerminal.
-  document.addEventListener('keydown', function(e) {
-    if (termOpen && e.key === 'Escape') { closeTerminal(); e.preventDefault(); }
+  // The native dialog handles focus containment and restores focus on close.
+  overlay.addEventListener('cancel', function(e) {
+    e.preventDefault();
+    closeTerminal();
   });
 
   // Terminal input handling
@@ -359,7 +364,7 @@
       execCommand(input.value);
       input.value = '';
       e.preventDefault();
-    } else if (e.key === 'Tab') {
+    } else if (e.key === 'Tab' && !e.shiftKey && input.value.trim()) {
       e.preventDefault();
       input.value = tabComplete(input.value);
     } else if (e.key === 'ArrowUp') {

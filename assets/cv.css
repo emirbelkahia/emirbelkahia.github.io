@@ -1,6 +1,7 @@
     :root {
       --primary-color: #2c3e50;
-      --secondary-color: #3498db;
+      --secondary-color: #216b9a;
+      --sidebar-accent: #68bbee;
       --text-color: #333;
       --light-text-color: #ecf0f1;
       --bg-color: #f8f9fa;
@@ -20,12 +21,12 @@
     }
     .resume-wrapper {
       width: 100%;
-      max-width: 940px;
+      max-width: 900px;
       box-sizing: border-box;
     }
     .resume-container {
       display: flex;
-      width: 900px;
+      width: 100%;
       background-color: var(--container-bg);
       box-shadow: 0 0 20px rgba(0,0,0,0.1);
       border-radius: 8px;
@@ -70,11 +71,11 @@
       object-fit: cover;
       display: block;
       margin: 0 auto 25px auto;
-      border: 5px solid var(--secondary-color);
+      border: 5px solid var(--sidebar-accent);
     }
     .sidebar h3 {
-      color: var(--secondary-color);
-      border-bottom: 1px solid var(--secondary-color);
+      color: var(--sidebar-accent);
+      border-bottom: 1px solid var(--sidebar-accent);
       padding-bottom: 6px;
       margin-top: 18px;
       margin-bottom: 10px;
@@ -95,7 +96,7 @@
       text-decoration: none;
     }
     .sidebar a:hover {
-      color: var(--secondary-color);
+      color: var(--sidebar-accent);
       text-decoration: underline;
     }
     .main-content {
@@ -165,7 +166,7 @@
       .footer-note {
       text-align: center;
       font-size: 0.75em;
-      color: #aaa;
+      color: #666;
       margin-top: 40px;
     }
       @media print {
@@ -189,7 +190,7 @@
         padding: 0 8mm 0 12mm;
       }
     }
-      @media (max-width: 768px) {
+      @media screen and (max-width: 940px) {
       body {
         padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
       }
@@ -208,9 +209,17 @@
         width: 100%;
         padding: 20px;
       }
+      .main-header h1 {
+        padding-right: 0;
+        font-size: clamp(2rem, 6vw, 2.8rem);
+      }
       .download-button {
         position: static;
         display: inline-block;
         margin-bottom: 10px;
       }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .download-button { transition: none; }
     }

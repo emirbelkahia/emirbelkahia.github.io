@@ -5,6 +5,8 @@
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
+  max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0;
   z-index: 9999;
   background: #0e0e0e;
   opacity: 0;
@@ -44,7 +46,18 @@
   margin-right: 8px;
   cursor: default;
 }
-.term-dot.red { background: #ff5f57; cursor: pointer; }
+.term-dot.red {
+  width: 24px; height: 24px;
+  padding: 6px; border: 0;
+  background: transparent; cursor: pointer;
+}
+.term-dot.red::before {
+  content: '';
+  display: block;
+  width: 12px; height: 12px;
+  border-radius: 50%; background: #ff5f57;
+}
+.term-dot.red:focus-visible { outline: 2px solid #fff; }
 .term-dot.yellow { background: #febc2e; }
 .term-dot.green { background: #28c840; }
 .term-title {
@@ -71,7 +84,7 @@
 .term-line.dir { color: #5fa8ff; }
 .term-line.accent { color: #3498db; }
 .term-line.success { color: #28c840; }
-.term-line.dim { color: #666; }
+.term-line.dim { color: #999; }
 .term-prompt-line {
   display: flex;
   align-items: center;
@@ -91,5 +104,10 @@
   font-family: 'SF Mono', Menlo, Consolas, monospace;
   font-size: 14px;
   flex: 1;
+  min-width: 0;
   caret-color: #28c840;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #terminal-overlay { transition: none; }
 }

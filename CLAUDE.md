@@ -21,7 +21,7 @@ Always run `git pull` before reading or editing files — other Claude sessions 
 The site is built to be cheap for agents and crawlers to read. When editing pages, keep this intact:
 
 - **Keep CSS and JS external.** `index.html` and `cv.html` must stay mostly content. Do not inline styles or scripts back into them.
-- **The terminal easter egg is loaded on demand.** `index.html` carries only a ~20-line inline listener; it fetches `assets/terminal.js` and `assets/terminal.css` on the first match of the secret word, then calls `window.__openTerminal()`. The overlay markup is injected by the script, so the page ships no inert easter-egg DOM. If you touch this: the script must keep exposing `window.__openTerminal`, and the secret word must stay out of it (the inline loader owns detection, or opening breaks after a close).
+- **The terminal easter egg is loaded on demand.** A small inline listener in `index.html` loads `assets/terminal.css` first, then `assets/terminal.js` and calls `window.__openTerminal()`. Either resource can fail and be retried on the next trigger; do not open an unstyled overlay. The script injects a native `<dialog>` for keyboard focus containment and exposes `window.__openTerminal`. Secret-word detection stays in the inline loader so reopening works.
 - **Keep the HTML semantic.** `main` / `nav` / `footer` / real headings, not `div` soup.
 - **JSON-LD is the source of truth for identity.** `index.html` carries a schema.org `@graph` (`WebSite` + `ProfilePage` + `Person`, all under stable `@id`s anchored on `https://emirbelkahia.com/#person`). `cv.html` carries a `ProfilePage` whose `mainEntity` reuses that same `@id`, plus the full `worksFor` role history, `hasCredential` and `knowsAbout`.
 - **When the CV changes, update the JSON-LD in the same commit.** Job titles, dates and employers are duplicated between the visible HTML and the JSON-LD. If they drift, the structured data starts lying to agents.
@@ -61,7 +61,15 @@ Rules:
 - **`CLAUDE.md` and `README.md` are served publicly** by GitHub Pages at `emirbelkahia.com/CLAUDE.md` and `/README.md`, verified live (HTTP 200, `text/markdown`). Jekyll copies front-matter-less `.md` files verbatim; it only drops dotfiles, which is why `.env.example` 404s. Both are `Disallow`ed in `robots.txt` since they are agent instructions and build docs, not site content.
 - **Regenerate the sitemap with `./build-sitemap.sh`** after changing a listed page. It reads each `lastmod` from `git log`, so a hand-edited sitemap will drift and start lying about freshness. `changefreq` and `priority` are deliberately absent: Google ignores both.
 
-Not done yet (layer 2): `llms.txt`, `llms-full.txt`, markdown mirrors (`cv.md`), and `.nojekyll`. Note that `.nojekyll` is *not* what would expose the `.md` files, since they are already served. What it would newly expose is `.env.example` and other dotfiles, so weigh that when the time comes.
+Not done yet (layer 2): `llms.txt`, `llms-full.txt` and markdown mirrors (`cv.md`). `.nojekyll` is not required to serve front-matter-less Markdown and is not planned here.
+
+## Verification
+
+- Run `npm test` before merging site changes; setup and prerequisites are in README.md.
+- Keep the CV fluid, with the single-column layout through 940px. Cover both sides of breakpoints, including the previously missed 769–939px range.
+- Respect reduced motion and maintain WCAG AA text contrast on both light and dark backgrounds.
+- The test suite runs with third-party requests stubbed. Also inspect visual changes with real fonts locally.
+- `_config.yml` excludes test tooling from the published site. Keep that list current when adding tooling. No Node runtime or browser-test dependency belongs in the visitor payload.
 
 
 ## Analytics
