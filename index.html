@@ -40,7 +40,9 @@
         "name": "Emir Belkahia",
         "description": "Personal site of Emir Belkahia: Strategic Customer Success professional, AI builder, and writer.",
         "inLanguage": "en",
-        "publisher": { "@id": "https://emirbelkahia.com/#person" }
+        "publisher": {
+          "@id": "https://emirbelkahia.com/#person"
+        }
       },
       {
         "@type": "ProfilePage",
@@ -48,9 +50,15 @@
         "url": "https://emirbelkahia.com/",
         "name": "Emir Belkahia",
         "inLanguage": "en",
-        "isPartOf": { "@id": "https://emirbelkahia.com/#website" },
-        "about": { "@id": "https://emirbelkahia.com/#person" },
-        "mainEntity": { "@id": "https://emirbelkahia.com/#person" }
+        "isPartOf": {
+          "@id": "https://emirbelkahia.com/#website"
+        },
+        "about": {
+          "@id": "https://emirbelkahia.com/#person"
+        },
+        "mainEntity": {
+          "@id": "https://emirbelkahia.com/#person"
+        }
       },
       {
         "@type": "Person",
@@ -61,38 +69,55 @@
         "url": "https://emirbelkahia.com/",
         "image": "https://emirbelkahia.com/profile-pic.jpeg",
         "jobTitle": "Staff Customer Success Manager",
-        "description": "Strategic Customer Success professional with 13+ years in enterprise B2B. Combines business acumen with hands-on AI expertise, and builds practical AI tooling for Customer Success organizations.",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Algolia",
-          "url": "https://www.algolia.com"
-        },
-        "alumniOf": {
-          "@type": "CollegeOrUniversity",
-          "name": "EPITA",
-          "url": "https://www.epita.fr"
-        },
-        "knowsLanguage": [
-          { "@type": "Language", "name": "French" },
-          { "@type": "Language", "name": "English" }
-        ],
-        "knowsAbout": [
-          "Customer Success Management",
-          "Value Realization",
-          "Enterprise SaaS",
-          "Search relevance",
-          "AI agents",
-          "Retrieval-Augmented Generation",
-          "Workflow automation",
-          "Model Context Protocol"
-        ],
+        "description": "Strategic Customer Success professional with 13+ years in enterprise B2B. Combines business acumen with hands-on AI expertise to help customers realize measurable value, and builds the tools to accelerate it.",
         "sameAs": [
           "https://www.linkedin.com/in/emirbelkahia/",
           "https://medium.com/@emirbelkahia",
           "https://github.com/emirbelkahia",
           "https://n8n.io/creators/emirbelkahia/"
         ],
-        "mainEntityOfPage": { "@id": "https://emirbelkahia.com/#webpage" }
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "French"
+          },
+          {
+            "@type": "Language",
+            "name": "English"
+          }
+        ],
+        "knowsAbout": [
+          "Customer Success Management",
+          "Value Realization & Business Reviews",
+          "Strategic Account Management",
+          "Enterprise SaaS",
+          "Search relevance",
+          "AI agents & LLM orchestration",
+          "Retrieval-Augmented Generation",
+          "Workflow automation",
+          "Technical Enablement & Adoption",
+          "Customer Success Playbook Design",
+          "Solution Architecture for CS",
+          "Cross-Functional Program Management",
+          "Model Context Protocol"
+        ],
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "EPITA",
+          "url": "https://www.epita.fr"
+        },
+        "worksFor": [
+          {
+            "@type": "EmployeeRole",
+            "roleName": "Staff Customer Success Manager",
+            "startDate": "2025-04",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Algolia",
+              "url": "https://www.algolia.com"
+            }
+          }
+        ]
       }
     ]
   }
@@ -100,17 +125,18 @@
 </head>
 
 <body>
-  <main class="container">
-    <img src="profile-pic.jpeg" alt="Emir Belkahia" class="profile-image" />
-    <h1>Emir Belkahia</h1>
-    <p class="subtitle">Strategic Customer Success &middot; AI Builder</p>
-    <p class="tagline">Practical AI for CS orgs</p>
-    <nav class="links" aria-label="Profiles, writing and code">
+  <div class="container">
+    <main>
+      <img src="profile-pic.jpeg" alt="Emir Belkahia" class="profile-image" />
+      <h1>Emir Belkahia</h1>
+      <p class="subtitle">Strategic Customer Success &middot; AI Builder</p>
+      <p class="tagline">Practical AI for CS orgs</p>
+      <nav class="links" aria-label="Profiles, writing and code">
       <a href="https://www.linkedin.com/in/emirbelkahia/" target="_blank" rel="me noopener" data-goatcounter-click="linkedin">
         LinkedIn
         <span class="desc">Career, posts &amp; professional journey</span>
       </a>
-      <a href="/cv.html" target="_blank" data-goatcounter-click="cv">
+      <a href="/cv.html" target="_blank" rel="noopener" data-goatcounter-click="cv">
         CV
         <span class="desc">Work history and experience</span>
       </a>
@@ -126,16 +152,17 @@
         GitHub
         <span class="desc">Tools inspired by real CS practice</span>
       </a>
-    </nav>
-    <div class="cta">
+      </nav>
+      <div class="cta">
       <a href="https://www.linkedin.com/in/emirbelkahia/" target="_blank" rel="me noopener" data-goatcounter-click="connect-linkedin">
         Connect with me on LinkedIn
       </a>
-    </div>
+      </div>
+    </main>
     <footer>
       made by Emir Belkahia, 2025<span class="terminal-hint"> &gt;_</span>
     </footer>
-  </main>
+  </div>
 
   <!-- Terminal Easter Egg -->
   <div id="terminal-overlay">
