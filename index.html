@@ -176,6 +176,11 @@
         var js = document.createElement('script');
         js.src = 'assets/terminal.js';
         js.onload = function () { window.__openTerminal(); };
+        js.onerror = function () {
+          loading = false;
+          js.remove();
+          css.remove();
+        };
         document.head.appendChild(js);
       });
     })();

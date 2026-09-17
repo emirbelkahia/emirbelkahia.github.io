@@ -2,7 +2,7 @@
   "name": "Emir Belkahia",
   "short_name": "Emir",
   "start_url": "/",
-  "display": "browser",
+  "display": "standalone",
   "theme_color": "#0e0e0e",
   "background_color": "#0e0e0e",
   "icons": [
