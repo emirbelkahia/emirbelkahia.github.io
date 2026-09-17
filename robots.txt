@@ -1,0 +1,26 @@
+# emirbelkahia.com
+# The HTML pages here are meant to be read, quoted and indexed, including by
+# AI agents. Two things are deliberately excluded: see below.
+#
+# One group on purpose. Per RFC 9309 a crawler obeys only the single most
+# specific matching group and never merges it with *. Adding named groups that
+# just repeat "Allow: /" would silently shadow every Disallow below, so the
+# rules here apply to everyone instead.
+#
+#   Sitemap:         https://emirbelkahia.com/sitemap.xml
+#   Structured data: schema.org Person + ProfilePage (JSON-LD) on / and /cv.html
+
+User-agent: *
+Allow: /
+
+# cv.pdf embeds contact details on purpose (see README.md): the web CV omits
+# them, the PDF carries them. It is for humans who click download, not for
+# search indexes or training corpora.
+Disallow: /cv.pdf
+
+# Repo files that GitHub Pages serves verbatim. Agent instructions and build
+# docs, not site content.
+Disallow: /CLAUDE.md
+Disallow: /README.md
+
+Sitemap: https://emirbelkahia.com/sitemap.xml
