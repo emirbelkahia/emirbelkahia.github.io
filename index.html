@@ -154,7 +154,7 @@
 
 
   <script>
-    // Easter egg. Detect the secret word here, in ~20 lines, and only then fetch
+    // Easter egg. Detect the secret word here, and only then fetch
     // assets/terminal.js + assets/terminal.css. Visitors who never type it pay
     // nothing for it.
     (function () {
@@ -172,16 +172,20 @@
         var css = document.createElement('link');
         css.rel = 'stylesheet';
         css.href = 'assets/terminal.css';
-        document.head.appendChild(css);
         var js = document.createElement('script');
         js.src = 'assets/terminal.js';
-        js.onload = function () { window.__openTerminal(); };
-        js.onerror = function () {
+        function retryAfterFailure() {
           loading = false;
           js.remove();
           css.remove();
+        }
+        css.onerror = js.onerror = retryAfterFailure;
+        css.onload = function () { document.head.appendChild(js); };
+        js.onload = function () {
+          loading = false;
+          window.__openTerminal();
         };
-        document.head.appendChild(js);
+        document.head.appendChild(css);
       });
     })();
   </script>

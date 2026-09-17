@@ -126,13 +126,13 @@ h1 {
 footer {
   margin-top: 1.6rem;
   font-size: 0.7rem;
-  color: #666;
+  color: #999;
   cursor: default;
   transition: color 0.3s ease;
 }
 
 footer:hover {
-  color: #888;
+  color: #aaa;
 }
 
 .terminal-hint {
@@ -173,5 +173,16 @@ footer:hover .terminal-hint {
   .links a {
     min-height: 56px;
     font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .links a, .cta a, .desc, footer, .terminal-hint {
+    transition: none;
   }
 }

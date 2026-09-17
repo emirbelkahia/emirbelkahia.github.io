@@ -1,0 +1,9 @@
+# Keep test tooling out of the GitHub Pages output.
+exclude:
+  - node_modules
+  - tests
+  - test-results
+  - playwright-report
+  - package.json
+  - package-lock.json
+  - playwright.config.js

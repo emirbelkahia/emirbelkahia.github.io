@@ -32,3 +32,30 @@ cp .env.example .env
 ```
 
 The `.env` file is gitignored and will never be committed.
+
+## Site checks
+
+The site remains static HTML/CSS/JS. Node dependencies are only used for tests
+and are excluded from GitHub Pages along with the test files.
+
+With Node.js 22, Python 3 and Poppler (`pdftotext`) installed:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+If port 4173 is occupied, use `SITE_TEST_PORT=49173 npm test`.
+On macOS, install Poppler with `brew install poppler`; on Ubuntu, use
+`sudo apt-get install poppler-utils`.
+
+GitHub Actions runs the same checks on pull requests and pushes to `main`:
+12 viewport widths per page, accessibility, local links and icons, JSON-LD
+identity consistency, sitemap XML, ATS/PDF text consistency, no-JavaScript
+reading, and terminal loading failures and keyboard behavior. Tests block
+external requests so they do not depend on Google Fonts or record analytics;
+visually review typography with the real fonts before merging visual changes.
+
+The PDF check compares text against the ATS source; it does not replace a
+visual PDF review. CI does not rebuild the PDF or need the private `.env`.
