@@ -247,6 +247,32 @@ def llms(data):
     return '\n'.join(lines) + '\n'
 
 
+def sitemap(data, changed):
+    """Rebuild sitemap.xml, bumping lastmod only for pages whose rendered text changed.
+
+    A `git log` date cannot drive lastmod here. It shifts the moment the build is
+    committed, so --check would fail on every pull request, and a depth-1 CI
+    checkout reports the same date for every file anyway. Each date is instead
+    carried forward from the committed sitemap and bumped only on a real change,
+    which also keeps the value honest about content freshness.
+    """
+    base = data['profile']['url']
+    path = ROOT / 'sitemap.xml'
+    previous = dict(re.findall(r'<loc>(\S+)</loc>\s*<lastmod>(\S+)</lastmod>',
+                               path.read_text(encoding='utf-8'))) if path.exists() else {}
+    today = datetime.now().strftime('%Y-%m-%d')
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    # cv.pdf embeds private contacts and cv-ats.html is noindex: neither belongs here.
+    for name in ('index.html', 'cv.html'):
+        loc = base if name == 'index.html' else urljoin(base, name)
+        lastmod = today if name in changed else previous.get(loc, today)
+        lines += ['  <url>', f'    <loc>{escape(loc)}</loc>',
+                  f'    <lastmod>{lastmod}</lastmod>', '  </url>']
+    # changefreq and priority are deliberately absent: Google ignores both.
+    return '\n'.join(lines + ['</urlset>', ''])
+
+
 def render_outputs(data, templates=None):
     validate(data)
     templates = templates or ROOT / 'templates'
@@ -268,13 +294,17 @@ def main():
     args = parser.parse_args()
     data = json.loads((ROOT / 'content/cv.json').read_text(encoding='utf-8'))
     outputs = render_outputs(data)
-    stale = []
-    for name, text in outputs.items():
+
+    def matches(name, text):
         path = ROOT / name
-        if not path.exists() or path.read_text(encoding='utf-8') != text:
-            stale.append(name)
-            if not args.check:
-                path.write_text(text, encoding='utf-8')
+        return path.exists() and path.read_text(encoding='utf-8') == text
+
+    # The sitemap's lastmod depends on which pages changed, so it is built after them.
+    outputs['sitemap.xml'] = sitemap(data, [n for n, t in outputs.items() if not matches(n, t)])
+    stale = [name for name, text in outputs.items() if not matches(name, text)]
+    if not args.check:
+        for name in stale:
+            (ROOT / name).write_text(outputs[name], encoding='utf-8')
     if args.check and stale:
         print('Stale generated files: ' + ', '.join(stale) + '. Run python3 build-site.py.', file=sys.stderr)
         return 1

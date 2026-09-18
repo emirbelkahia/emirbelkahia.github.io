@@ -1,99 +1,64 @@
 # emirbelkahia.com
 
-Source code for my personal website and CV — hosted on GitHub Pages.
+Source code for my personal website and CV, hosted on GitHub Pages.
 
-📬 [linkedin.com/in/emirbelkahia](https://www.linkedin.com/in/emirbelkahia)
-🌐 [emirbelkahia.com](https://emirbelkahia.com)
+- 🌐 [emirbelkahia.com](https://emirbelkahia.com)
+- 📄 [Web CV](https://emirbelkahia.com/cv.html)
+- 📬 [LinkedIn](https://www.linkedin.com/in/emirbelkahia)
 
-## Structure
+## Philosophy
 
-| File | Role |
-|---|---|
-| `content/cv.json` | Shared public content: identity, roles, skills, projects and links |
-| `templates/` | HTML layout and styling hooks, with simple placeholders |
-| `build-site.py` | Standard-library Python generator for all text formats; optional PDF build |
-| `index.html` | Generated homepage |
-| `cv.html` | Generated web CV (public, styled version) |
-| `cv-ats.html` | Generated ATS-friendly CV; no private contact details |
-| `cv.md` | Generated public Markdown CV, using the expanded ATS wording |
-| `llms.txt` | Generated short map to the CV and public profiles |
-| `cv.pdf` | PDF generated from `cv-ats.html` with email & phone injected at build time. Rebuild it whenever `cv-ats.html` changes |
-| `assets/` | External CSS & JS. `terminal.js` / `terminal.css` load on demand |
-| `favicon.ico` + `favicon/` | Icon set — 6 files, see CLAUDE.md before adding any |
-| `robots.txt` | Crawl directives — pages open to all crawlers, `cv.pdf` excluded |
-| `sitemap.xml` | URL discovery for crawlers — generated, do not hand-edit |
-| `build-sitemap.sh` | Regenerates `sitemap.xml` with `lastmod` from git history |
+I like systems that are carefully crafted and minimal. My UX background
+probably has something to do with it. Less is more, as long as less works
+reliably and fulfils its purpose.
 
-## Editing and building
+This site is deliberately lean, as if the planet were running out of RAM.
+*(September 2026 joke. Let's see how well it ages.)*
 
-Edit `content/cv.json` for content and `templates/` for HTML layout. Do not edit
-the generated HTML, Markdown or `llms.txt` directly. The same source also builds
-the homepage and CV JSON-LD, so shared facts stay consistent.
+Digression over.
 
-Python 3.9+ is enough to generate the public text outputs, with no dependencies:
+The site is designed to make my work and experience easy to find, read and
+share. It uses static HTML, CSS and a small amount of JavaScript, with no
+framework or runtime dependency in the visitor's browser. Function comes first;
+polish is added where it makes the experience clearer or more enjoyable.
 
-```bash
-python3 build-site.py          # index.html, cv.html, cv-ats.html, cv.md, llms.txt
-python3 build-site.py --check  # report stale/missing text outputs; write nothing
-```
+## One system, three CVs
 
-Roles are ordered newest first; the first role is current (`end: null`). Dates
-use `YYYY-MM`, and employers refer to entries in `companies`. Strings are shared
-by default. Where the existing web CV uses shorter wording, explicit
-`{"web": "short version", "ats": "expanded version"}` values preserve that choice.
-A bullet with `web: null` appears only in the expanded formats. Markdown uses
-the expanded ATS wording. `profile.summary` is the visible first-person summary;
-`profile.description` is the third-person sentence used for meta descriptions
-and JSON-LD. These content fields are plain text, not raw HTML.
+The site produces three representations of the same experience:
 
-To build **all formats, including the PDF**, install Google Chrome (the script
-uses its macOS application path), configure the ignored `.env`, then run:
+- The [web CV](https://emirbelkahia.com/cv.html) is designed for humans, who are
+  still users of the internet until further notice.
+- [`cv.md`](https://emirbelkahia.com/cv.md) gives AI agents a clean text version,
+  since they are also users of the internet until further notice.
+- The [ATS-friendly CV](https://emirbelkahia.com/cv-ats.html) remains readable by
+  humans while giving recruiting software a predictable, machine-readable
+  document. The PDF is rendered from this version.
 
-```bash
-cp .env.example .env           # first time only; fill in email and phone
-python3 build-site.py --pdf
-```
+Maintaining all three by hand would invite content drift. This is where my
+system-builder instinct kicks in: `content/cv.json` is the single source of
+truth, and one Python build system generates every format, the structured data,
+discovery files and sitemap. An update propagates everywhere, while automated
+checks catch stale output. Content drifting out of date is a mundane but very
+real problem on the web.
 
-The PDF is rendered from the generated ATS HTML. Email and phone are injected
-only into a temporary HTML file, which is removed on exit. Public text generation
-does not read `.env`. The PDF remains publicly downloadable; `robots.txt` requests
-that crawlers skip it, which is not access control. Optional `qpdf` compresses it
-without changing its content. Rebuild and commit the PDF with ATS content or
-layout changes. `./generate-pdf.sh` remains available but refuses stale text
-outputs; `--pdf` regenerates those first.
+The generated pages are semantic, responsive and tested for accessibility.
+GitHub Pages serves the resulting static files directly.
 
-Commit source changes and generated outputs together. For changes to listed
-HTML pages, run `./build-sitemap.sh` after committing them: its dates come from
-git history. `cv.md` and `llms.txt` are discovered through links in the HTML head;
-`llms.txt` links to `cv.md`. These files add no browser JavaScript or runtime.
-The existing HTML pages remain the canonical sitemap entries.
+## The agentic layer
 
-## Site checks
+I have considered exposing the site through WebMCP. The idea is still early and
+the site does not yet have a useful interaction that would justify the extra
+surface area. If the agentic web evolves in that direction, I may revisit it.
+Until then, the Markdown CV handles the practical reading use case with much
+less machinery.
 
-The site remains static HTML/CSS/JS. Node dependencies are only used for tests
-and are excluded from GitHub Pages along with the test files.
-
-With Node.js 22, Python 3 and Poppler (`pdftotext`) installed:
+## Local development
 
 ```bash
+python3 build-site.py
 npm ci
-npx playwright install chromium
-npm run check:build
 npm test
 ```
 
-If port 4173 is occupied, use `SITE_TEST_PORT=49173 npm test`.
-On macOS, install Poppler with `brew install poppler`; on Ubuntu, use
-`sudo apt-get install poppler-utils`.
-
-`npm test` first runs `check:build` through its pretest hook. GitHub Actions runs
-the same checks on pull requests and pushes to `main`:
-generated-file freshness, generator regression tests, Markdown discovery,
-12 viewport widths per page, accessibility, local links and icons, JSON-LD
-identity consistency, sitemap XML, ATS/PDF text consistency, no-JavaScript
-reading, and terminal loading failures and keyboard behavior. Tests block
-external requests so they do not depend on Google Fonts or record analytics;
-visually review typography with the real fonts before merging visual changes.
-
-The PDF check compares text against the ATS source; it does not replace a
-visual PDF review. CI does not rebuild the PDF or need the private `.env`.
+Build rules, PDF generation and test prerequisites are documented in
+[`DEVELOPMENT.md`](DEVELOPMENT.md).

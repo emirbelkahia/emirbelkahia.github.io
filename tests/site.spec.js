@@ -68,13 +68,24 @@ test('structured identity agrees with the pages and discovery files are valid', 
   for (const key of Object.keys(people[0]).filter(key => key !== 'worksFor')) expect(people[1][key], key).toEqual(people[0][key]);
   expect(people[1].worksFor[0]).toEqual(people[0].worksFor[0]);
   const sitemap = await (await request.get('/sitemap.xml')).text();
-  const urls = await page.evaluate(xml => {
+  const entries = await page.evaluate(xml => {
     const doc = new DOMParser().parseFromString(xml, 'application/xml');
     if (doc.querySelector('parsererror')) throw new Error('Invalid sitemap XML');
-    return [...doc.querySelectorAll('loc')].map(e => e.textContent);
+    return [...doc.querySelectorAll('url')].map(e => ({
+      loc: e.querySelector('loc')?.textContent,
+      lastmod: e.querySelector('lastmod')?.textContent,
+    }));
   }, sitemap);
+  const urls = entries.map(e => e.loc);
   expect(urls).toEqual(['https://emirbelkahia.com/', 'https://emirbelkahia.com/cv.html']);
   for (const url of urls) expect((await request.get(new URL(url).pathname)).status()).toBe(200);
+  // A lastmod Google cannot parse, or one in the future, is worse than none at all.
+  const today = new Date().toISOString().slice(0, 10);
+  for (const { loc, lastmod } of entries) {
+    expect(lastmod, `${loc} lastmod`).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(Number.isNaN(Date.parse(lastmod)), `${loc} lastmod parses`).toBe(false);
+    expect(lastmod <= today, `${loc} lastmod ${lastmod} is not in the future`).toBe(true);
+  }
   const robots = await (await request.get('/robots.txt')).text();
   expect(robots.match(/^User-agent:/gm)).toHaveLength(1);
   expect(robots).toContain('Disallow: /cv.pdf');

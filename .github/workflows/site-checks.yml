@@ -21,7 +21,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: sudo apt-get update && sudo apt-get install -y poppler-utils
-      - run: bash -n build-sitemap.sh generate-pdf.sh && node --check assets/terminal.js
+      - run: bash -n generate-pdf.sh && node --check assets/terminal.js
       - run: npm test
       - uses: actions/upload-artifact@v4
         if: failure()

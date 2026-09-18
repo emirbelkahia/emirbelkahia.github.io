@@ -1,5 +1,8 @@
 # Keep build sources and test tooling out of the GitHub Pages output.
 exclude:
+  - README.md
+  - DEVELOPMENT.md
+  - CLAUDE.md
   - node_modules
   - tests
   - test-results
@@ -8,5 +11,6 @@ exclude:
   - package-lock.json
   - playwright.config.js
   - build-site.py
+  - generate-pdf.sh
   - content
   - templates

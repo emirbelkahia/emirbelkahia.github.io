@@ -1,5 +1,6 @@
 """Regression checks for the shared source, escaping and read-only freshness check."""
 import copy
+from datetime import datetime
 import importlib.util
 import json
 from pathlib import Path
@@ -92,6 +93,52 @@ class BuildTests(unittest.TestCase):
             before = {path: path.read_bytes() for path in paths}
             self.assertNotEqual(run().returncode, 0)
             self.assertEqual(before, {path: path.read_bytes() for path in paths})
+
+    def test_sitemap_is_generated_and_its_dates_only_move_with_content(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for folder in ('content', 'templates'):
+                shutil.copytree(ROOT / folder, root / folder)
+            shutil.copy(ROOT / 'build-site.py', root)
+            sitemap = root / 'sitemap.xml'
+            today = datetime.now().strftime('%Y-%m-%d')
+
+            def run(*args):
+                return subprocess.run([sys.executable, str(root / 'build-site.py'), *args],
+                                      capture_output=True, text=True)
+
+            def dates():
+                return re.findall(r'<lastmod>(\S+)</lastmod>', sitemap.read_text())
+
+            self.assertEqual(run().returncode, 0)
+            base = self.data['profile']['url']
+            self.assertEqual(re.findall(r'<loc>(\S+)</loc>', sitemap.read_text()),
+                             [base, base + 'cv.html'])
+            # cv.pdf embeds private contacts and cv-ats.html is noindex.
+            for excluded in ('cv.pdf', 'cv-ats.html'):
+                self.assertNotIn(excluded, sitemap.read_text())
+
+            # A stale sitemap has to fail the read-only check: that is the guardrail.
+            sitemap.write_text('manual drift\n')
+            result = run('--check')
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('sitemap.xml', result.stderr)
+            self.assertEqual(sitemap.read_text(), 'manual drift\n')
+            self.assertEqual(run().returncode, 0)
+
+            # Unchanged pages carry their dates forward rather than restamping today,
+            # so a pull request that leaves the content alone never rebuilds the sitemap.
+            carried = sitemap.read_text().replace(today, '2020-01-02')
+            sitemap.write_text(carried)
+            self.assertEqual(run('--check').returncode, 0)
+            self.assertEqual(sitemap.read_text(), carried)
+
+            # Interests reach cv.html but not the homepage, so only that page's date moves.
+            self.data['interests'][0]['text'] = 'Sitemap fixture interest'
+            (root / 'content/cv.json').write_text(json.dumps(self.data))
+            self.assertEqual(run().returncode, 0)
+            self.assertEqual(dates(), ['2020-01-02', today])
+            self.assertEqual(run('--check').returncode, 0)
 
 
 if __name__ == '__main__':
