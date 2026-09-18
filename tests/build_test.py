@@ -20,6 +20,7 @@ spec.loader.exec_module(build)
 class BuildTests(unittest.TestCase):
     def setUp(self):
         self.data = json.loads((ROOT / 'content/cv.json').read_text())
+        self.redirects = json.loads((ROOT / 'content/redirects.json').read_text())
 
     def test_shared_facts_propagate_without_changing_source(self):
         self.data['experience'][0]['title'] = 'Principal Customer Success Manager'
@@ -58,6 +59,25 @@ class BuildTests(unittest.TestCase):
         self.assertIn(r'\[link\]', outputs['cv.md'])
         self.assertNotIn('<script>', outputs['cv.md'])
 
+    def test_short_links_resolve_existing_links_without_becoming_open_redirects(self):
+        outputs = build.redirect_outputs(self.data, self.redirects)
+        self.assertEqual(set(outputs), {f'{route}/index.html' for route in self.redirects})
+        links = {link['key']: link for link in self.data['links']}
+        for route, link_key in self.redirects.items():
+            page = outputs[f'{route}/index.html']
+            target = links[link_key]['url']
+            if target.startswith('/'):
+                target = self.data['profile']['url'].rstrip('/') + target
+            self.assertIn(build.REDIRECT_MARKER, page)
+            self.assertIn('<meta name="robots" content="noindex,follow">', page)
+            self.assertIn(f'<link rel="canonical" href="{target}">', page)
+            self.assertIn(f'location.replace({json.dumps(target)})', page)
+        self.assertEqual(outputs['contact/index.html'], outputs['linkedin/index.html'])
+        with self.assertRaisesRegex(ValueError, 'Invalid redirect route'):
+            build.redirect_outputs(self.data, {'bad/path': 'github'})
+        with self.assertRaisesRegex(ValueError, 'Unknown redirect link key'):
+            build.redirect_outputs(self.data, {'elsewhere': 'missing'})
+
     def test_cli_detects_drift_without_writing_and_ignores_private_env(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -71,7 +91,10 @@ class BuildTests(unittest.TestCase):
                                       capture_output=True, text=True)
 
             self.assertEqual(run().returncode, 0)
-            paths = [root / name for name in build.render_outputs(self.data)]
+            generated = set(build.render_outputs(self.data))
+            generated.update(build.redirect_outputs(self.data, self.redirects))
+            generated.add('sitemap.xml')
+            paths = [root / name for name in generated]
             for path in paths:
                 self.assertNotIn('private-fixture', path.read_text())
                 self.assertNotIn('PRIVATE-PHONE', path.read_text())
@@ -80,13 +103,21 @@ class BuildTests(unittest.TestCase):
             self.assertEqual(before, {path: path.stat().st_mtime_ns for path in paths})
             (root / 'cv.md').write_text('manual drift\n')
             (root / 'llms.txt').unlink()
+            (root / 'github/index.html').write_text('manual drift\n')
+            obsolete = root / 'old-link/index.html'
+            obsolete.parent.mkdir()
+            obsolete.write_text(build.REDIRECT_MARKER + '\n')
             result = run('--check')
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('cv.md', result.stderr)
             self.assertIn('llms.txt', result.stderr)
+            self.assertIn('github/index.html', result.stderr)
+            self.assertIn('old-link/index.html', result.stderr)
             self.assertEqual((root / 'cv.md').read_text(), 'manual drift\n')
             self.assertFalse((root / 'llms.txt').exists())
+            self.assertTrue(obsolete.exists())
             self.assertEqual(run().returncode, 0)
+            self.assertFalse(obsolete.exists())
             self.assertEqual(run('--check').returncode, 0)
             self.data['experience'][0]['start'] = '2026-13'
             (root / 'content/cv.json').write_text(json.dumps(self.data))

@@ -5,13 +5,15 @@ overview lives in `README.md`.
 
 ## Sources and generated files
 
-Edit `content/cv.json` for content and `templates/` for HTML layout. Do not edit
-the generated HTML, Markdown or `llms.txt` directly. The same source also builds
-the homepage and CV JSON-LD, keeping shared facts consistent.
+Edit `content/cv.json` for content, `content/redirects.json` for branded short
+links and `templates/` for HTML layout. Do not edit generated HTML, Markdown or
+`llms.txt` directly. The same source also builds the homepage and CV JSON-LD,
+keeping shared facts consistent.
 
 | Path | Role |
 |---|---|
 | `content/cv.json` | Public identity, roles, skills, projects and links |
+| `content/redirects.json` | Short route to existing link-key mappings; no destination URLs are duplicated |
 | `templates/` | HTML layouts and styling hooks |
 | `build-site.py` | Generator for public text formats and the optional PDF build |
 | `index.html` | Generated homepage |
@@ -22,6 +24,7 @@ the homepage and CV JSON-LD, keeping shared facts consistent.
 | `cv.pdf` | PDF generated from the ATS HTML with private contacts injected at build time |
 | `assets/` | CSS and JavaScript; terminal assets load on demand |
 | `sitemap.xml` | Generated URL discovery file; do not edit it by hand |
+| `<route>/index.html` | Generated noindex pages for branded short links |
 
 ## Public text build
 
@@ -33,8 +36,10 @@ python3 build-site.py --check
 ```
 
 The first command regenerates `index.html`, `cv.html`, `cv-ats.html`, `cv.md`,
-`llms.txt` and `sitemap.xml`. The second reports stale or missing outputs without
-writing anything.
+`llms.txt`, `sitemap.xml` and the branded short-link pages. It also removes a
+deleted route's old page when that page still carries the generator marker. The
+second command reports stale, missing or obsolete outputs without writing
+anything.
 
 Roles are ordered newest first and the current role has `end: null`. Dates use
 `YYYY-MM`, and employers refer to entries in `companies`. Strings are shared by

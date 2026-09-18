@@ -37,9 +37,9 @@ The site produces three representations of the same experience:
 Maintaining all three by hand would invite content drift. This is where my
 system-builder instinct kicks in: `content/cv.json` is the single source of
 truth, and one Python build system generates every format, the structured data,
-discovery files and sitemap. An update propagates everywhere, while automated
-checks catch stale output. Content drifting out of date is a mundane but very
-real problem on the web.
+discovery files, sitemap and branded short links. An update propagates
+everywhere, while automated checks catch stale output. Content drifting out of
+date is a mundane but very real problem on the web.
 
 The generated pages are semantic, responsive and tested for accessibility.
 GitHub Pages serves the resulting static files directly.

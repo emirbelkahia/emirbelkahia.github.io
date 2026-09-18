@@ -130,6 +130,22 @@ test('agents can discover the public Markdown CV', async ({ page, request }) => 
   expect(guide).not.toContain('cv.pdf');
 });
 
+test('branded short links resolve their centrally managed destinations', async ({ page, request }) => {
+  const content = JSON.parse(readFileSync('content/cv.json', 'utf8'));
+  const redirects = JSON.parse(readFileSync('content/redirects.json', 'utf8'));
+  const links = Object.fromEntries(content.links.map(link => [link.key, link]));
+  for (const [route, linkKey] of Object.entries(redirects)) {
+    const target = new URL(links[linkKey].url, content.profile.url).href;
+    const response = await request.get(`/${route}/`);
+    expect(response.status(), route).toBe(200);
+    const html = await response.text();
+    expect(html, route).toContain('<meta name="robots" content="noindex,follow">');
+    expect(html, route).toContain(`<link rel="canonical" href="${target}">`);
+    await page.goto(`/${route}`);
+    await expect.poll(() => page.url(), { message: route }).toBe(target);
+  }
+});
+
 for (const asset of ['terminal.css', 'terminal.js']) {
   test(`terminal retries after ${asset} fails`, async ({ page }) => {
     const errors = [];

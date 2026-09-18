@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the public CV formats from content/cv.json (Python standard library only)."""
+"""Build the public site from structured content (Python standard library only)."""
 
 import argparse
 from datetime import datetime
@@ -14,6 +14,7 @@ from urllib.parse import urljoin, urlsplit
 ROOT = Path(__file__).resolve().parent
 MONTHS = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+REDIRECT_MARKER = '<!-- Generated redirect: do not edit -->'
 
 
 def variant(value, view):
@@ -247,6 +248,48 @@ def llms(data):
     return '\n'.join(lines) + '\n'
 
 
+def redirect_outputs(data, redirects):
+    """Build fixed, noindex short links without duplicating destination URLs."""
+    links = {link['key']: link for link in data['links']}
+    outputs = {}
+    for route, link_key in redirects.items():
+        if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', route):
+            raise ValueError(f'Invalid redirect route: {route}')
+        if link_key not in links:
+            raise ValueError(f'Unknown redirect link key for {route}: {link_key}')
+        link = links[link_key]
+        target = urljoin(data['profile']['url'], link['url'])
+        escaped_target = escape(target, quote=True)
+        label = escape(link['title'])
+        script_target = json.dumps(target, ensure_ascii=False).replace('<', '\\u003c')
+        outputs[f'{route}/index.html'] = f'''<!doctype html>
+<html lang="en">
+<head>
+  {REDIRECT_MARKER}
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,follow">
+  <meta http-equiv="refresh" content="0; url={escaped_target}">
+  <link rel="canonical" href="{escaped_target}">
+  <title>Redirecting to {label}</title>
+  <script>location.replace({script_target});</script>
+</head>
+<body>
+  <p>Redirecting to <a href="{escaped_target}">{label}</a>.</p>
+</body>
+</html>
+'''
+    return outputs
+
+
+def managed_redirect_paths(root=ROOT):
+    """Find redirect artifacts that this generator may safely remove."""
+    return {
+        str(path.relative_to(root))
+        for path in root.glob('*/index.html')
+        if REDIRECT_MARKER in path.read_text(encoding='utf-8')
+    }
+
+
 def sitemap(data, changed):
     """Rebuild sitemap.xml, bumping lastmod only for pages whose rendered text changed.
 
@@ -293,7 +336,9 @@ def main():
     modes.add_argument('--pdf', action='store_true', help='Also build the private-contact PDF with generate-pdf.sh')
     args = parser.parse_args()
     data = json.loads((ROOT / 'content/cv.json').read_text(encoding='utf-8'))
+    redirects = json.loads((ROOT / 'content/redirects.json').read_text(encoding='utf-8'))
     outputs = render_outputs(data)
+    outputs.update(redirect_outputs(data, redirects))
 
     def matches(name, text):
         path = ROOT / name
@@ -301,10 +346,18 @@ def main():
 
     # The sitemap's lastmod depends on which pages changed, so it is built after them.
     outputs['sitemap.xml'] = sitemap(data, [n for n, t in outputs.items() if not matches(n, t)])
-    stale = [name for name, text in outputs.items() if not matches(name, text)]
+    obsolete = sorted(managed_redirect_paths() - outputs.keys())
+    stale = [name for name, text in outputs.items() if not matches(name, text)] + obsolete
     if not args.check:
-        for name in stale:
-            (ROOT / name).write_text(outputs[name], encoding='utf-8')
+        for name in obsolete:
+            path = ROOT / name
+            path.unlink()
+            path.parent.rmdir()
+        for name, text in outputs.items():
+            if not matches(name, text):
+                path = ROOT / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(text, encoding='utf-8')
     if args.check and stale:
         print('Stale generated files: ' + ', '.join(stale) + '. Run python3 build-site.py.', file=sys.stderr)
         return 1

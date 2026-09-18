@@ -9,8 +9,9 @@ Always run `git pull` before reading or editing files — other Claude sessions 
 ## Structure
 
 - `content/cv.json` — source of truth for public CV content and identity
+- `content/redirects.json` — branded short routes mapped to link keys from `cv.json`
 - `templates/` — layout for the three generated HTML pages
-- `build-site.py` — generates HTML, JSON-LD, `cv.md`, `llms.txt` and `sitemap.xml`; `--pdf` also builds the PDF
+- `build-site.py` — generates HTML, redirects, JSON-LD, `cv.md`, `llms.txt` and `sitemap.xml`; `--pdf` also builds the PDF
 - `cv.md`, `llms.txt` — generated public Markdown CV and short discovery map
 
 - `index.html` — homepage (links + LinkedIn networking CTA + terminal easter egg)
@@ -29,8 +30,8 @@ The site is built to be cheap for agents and crawlers to read. When editing page
 - **The terminal easter egg is loaded on demand.** A small inline listener in `index.html` loads `assets/terminal.css` first, then `assets/terminal.js` and calls `window.__openTerminal()`. Either resource can fail and be retried on the next trigger; do not open an unstyled overlay. The script injects a native `<dialog>` for keyboard focus containment and exposes `window.__openTerminal`. Secret-word detection stays in the inline loader so reopening works.
 - **Keep the HTML semantic.** `main` / `nav` / `footer` / real headings, not `div` soup.
 - **`content/cv.json` is the source of truth for identity; JSON-LD is generated.** `index.html` carries a schema.org `@graph` (`WebSite` + `ProfilePage` + `Person`, all under stable `@id`s anchored on `https://emirbelkahia.com/#person`). `cv.html` carries a `ProfilePage` whose `mainEntity` reuses that same `@id`, plus the full `worksFor` role history, `hasCredential` and `knowsAbout`.
-- **Edit content or templates, then regenerate.** Run `python3 build-site.py --pdf` when CV content or ATS layout changes, and commit generated outputs with their sources. Never hand-edit `index.html`, `cv.html`, `cv-ats.html`, `cv.md` or `llms.txt`. Explicit `web`/`ats` content variants preserve existing editorial differences; shared facts occur once in the JSON source.
-- **Every new public page needs** a `<link rel="canonical">`, a `<meta name="description">`, the GoatCounter snippet, and an entry in the `sitemap()` page list in `build-site.py`.
+- **Edit content or templates, then regenerate.** Run `python3 build-site.py --pdf` when CV content or ATS layout changes, and commit generated outputs with their sources. Never hand-edit `index.html`, `cv.html`, `cv-ats.html`, `cv.md`, `llms.txt` or generated redirect pages. Explicit `web`/`ats` content variants preserve existing editorial differences; shared facts occur once in the JSON source.
+- **Every new content page needs** a `<link rel="canonical">`, a `<meta name="description">`, the GoatCounter snippet, and an entry in the `sitemap()` page list in `build-site.py`. Generated redirects are deliberately `noindex`, canonicalize to their destination and stay out of the sitemap.
 - **`footer` must not be nested inside `main`.** A `footer` inside `main`/`article`/`section`/`aside`/`nav` loses its `contentinfo` landmark. On `index.html` the styled card is a `div.container`; `main` and `footer` are siblings inside it.
 
 ## Assets and the PDF
