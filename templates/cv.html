@@ -7,16 +7,33 @@
   <title>{{ name }} – {{ job_title }}</title>
   <meta name="description" content="{{ description }}" />
   <link rel="canonical" href="{{ cv_url }}" />
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="{{ cv_url }}">
+  <meta property="og:title" content="{{ name }} – {{ job_title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:image" content="{{ social_image_url }}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ name }} – {{ job_title }} &amp; AI Builder">
+  <meta property="profile:first_name" content="{{ given_name }}">
+  <meta property="profile:last_name" content="{{ family_name }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ name }} – {{ job_title }}">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="{{ social_image_url }}">
+  <meta name="twitter:image:alt" content="{{ name }} – {{ job_title }} &amp; AI Builder">
   <link rel="alternate" type="text/markdown" href="{{ markdown_url }}">
   <link rel="describedby" type="text/markdown" href="{{ llms_url }}">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
   <meta name="theme-color" content="#f8f9fa">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- GoatCounter Analytics -->
   <script data-goatcounter="https://emirbelkahia.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="assets/cv.css">
+  <style>
+{{ page_css }}
+  </style>
   <script type="application/ld+json">
 {{ jsonld }}
   </script>
@@ -33,7 +50,11 @@
     </a>
   </nav>
   <aside class="sidebar">
-    <img src="{{ image }}" alt="{{ name }}" class="profile-pic" />
+    <picture>
+      <source type="image/avif" srcset="assets/profile-pic-200.avif 200w, assets/profile-pic-400.avif 400w" sizes="160px">
+      <source type="image/webp" srcset="assets/profile-pic-200.webp 200w, assets/profile-pic-400.webp 400w" sizes="160px">
+      <img src="{{ image }}" alt="{{ name }}" class="profile-pic" width="400" height="400" fetchpriority="high" loading="eager" decoding="async" />
+    </picture>
     <h3>Contact</h3>
     <ul>
       <li><a href="{{ linkedin_url }}" target="_blank" rel="noopener">{{ linkedin_label }}</a></li>

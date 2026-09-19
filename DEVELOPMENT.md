@@ -22,7 +22,8 @@ keeping shared facts consistent.
 | `cv.md` | Generated public Markdown CV using the expanded ATS wording |
 | `llms.txt` | Generated short map to the CV and public profiles |
 | `cv.pdf` | PDF generated from the ATS HTML with private contacts injected at build time |
-| `assets/` | CSS and JavaScript; terminal assets load on demand |
+| `assets/` | CSS, self-hosted fonts, responsive profile images, social preview assets and JavaScript; terminal assets load on demand |
+| `profile-pic.jpeg` | Original profile image and universal fallback; optimized AVIF/WebP variants live in `assets/` |
 | `sitemap.xml` | Generated URL discovery file; do not edit it by hand |
 | `<route>/index.html` | Generated noindex pages for branded short links |
 
@@ -100,7 +101,11 @@ accessibility, local links and icons, structured identity data, sitemap XML,
 ATS/PDF text consistency, no-JavaScript reading, and terminal failure and
 keyboard behaviour.
 
-Browser tests block third-party requests so they do not depend on external fonts
-or record analytics. Review typography with the real fonts before merging visual
-changes. The automated PDF check compares text with the ATS source and does not
-replace a visual PDF review. CI does not rebuild the PDF or require `.env`.
+Browser tests block third-party requests so they do not record analytics. The
+production pages inline their small page-specific CSS and self-host the Latin
+subsets of Lato and Montserrat under `assets/fonts/` to remove render-blocking
+third-party stylesheets. `assets/social-card-background.png` is the source art for
+the 1200×630 `assets/social-card.jpg` shared by Open Graph and X cards.
+Review typography and social previews visually before merging changes. The
+automated PDF check compares text with the ATS source and does not replace a
+visual PDF review. CI does not rebuild the PDF or require `.env`.

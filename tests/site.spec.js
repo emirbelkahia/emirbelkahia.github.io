@@ -130,6 +130,40 @@ test('agents can discover the public Markdown CV', async ({ page, request }) => 
   expect(guide).not.toContain('cv.pdf');
 });
 
+test('social previews and critical images use the optimized local assets', async ({ page, request }) => {
+  for (const path of ['/', '/cv.html']) {
+    await page.goto(path);
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://emirbelkahia.com/assets/social-card.jpg');
+    await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '1200');
+    await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '630');
+    expect(await page.locator('link[href*="fonts.googleapis.com"]').count()).toBe(0);
+
+    const profile = page.locator('picture img').first();
+    await expect(profile).toHaveAttribute('fetchpriority', 'high');
+    await expect(profile).toHaveAttribute('loading', 'eager');
+    await expect(profile).toHaveAttribute('width', '400');
+    await expect(profile).toHaveAttribute('height', '400');
+    await expect.poll(() => profile.evaluate(image => image.currentSrc)).toMatch(/profile-pic-(200|400)\.avif$/);
+  }
+
+  for (const asset of [
+    '/assets/social-card.jpg',
+    '/assets/profile-pic-200.avif',
+    '/assets/profile-pic-400.avif',
+    '/assets/profile-pic-200.webp',
+    '/assets/profile-pic-400.webp',
+    '/assets/fonts/montserrat-latin.woff2',
+    '/assets/fonts/lato-300-latin.woff2',
+    '/assets/fonts/lato-400-latin.woff2',
+    '/assets/fonts/lato-700-latin.woff2',
+  ]) expect((await request.get(asset)).status(), asset).toBe(200);
+
+  await page.goto('/assets/social-card.jpg');
+  const dimensions = await page.locator('img').evaluate(image => ({ width: image.naturalWidth, height: image.naturalHeight }));
+  expect(dimensions).toEqual({ width: 1200, height: 630 });
+});
+
 test('branded short links resolve their centrally managed destinations', async ({ page, request }) => {
   const content = JSON.parse(readFileSync('content/cv.json', 'utf8'));
   const redirects = JSON.parse(readFileSync('content/redirects.json', 'utf8'));

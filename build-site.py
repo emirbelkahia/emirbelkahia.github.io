@@ -135,10 +135,12 @@ def html_context(data, view):
     links = {link['key']: link for link in data['links']}
     short_title = title.replace('Customer Success Manager', 'CSM')
     raw = {
-        'name': name, 'job_title': title, 'site_url': profile['url'], 'image': profile['image'],
+        'name': name, 'given_name': profile['given_name'], 'family_name': profile['family_name'],
+        'job_title': title, 'site_url': profile['url'], 'image': profile['image'],
         'cv_url': urljoin(profile['url'], 'cv.html'),
         'markdown_url': urljoin(profile['url'], 'cv.md'),
         'llms_url': urljoin(profile['url'], 'llms.txt'),
+        'social_image_url': urljoin(profile['url'], 'assets/social-card.jpg'),
         'tagline': profile['tagline'], 'focus': profile['focus'],
         # summary is the visible first-person text; description is the third-person
         # sentence for meta descriptions and JSON-LD, where a snippet reads as a bio.
@@ -322,6 +324,9 @@ def render_outputs(data, templates=None):
     outputs = {}
     for name, view in [('index.html', 'home'), ('cv.html', 'web'), ('cv-ats.html', 'ats')]:
         context = html_context(data, view)
+        css_name = {'home': 'index.css', 'web': 'cv.css'}.get(view)
+        if css_name:
+            context['page_css'] = (templates.parent / 'assets' / css_name).read_text(encoding='utf-8')
         template = (templates / name).read_text(encoding='utf-8')
         outputs[name] = re.sub(r'{{\s*(\w+)\s*}}', lambda match: context[match[1]], template)
     outputs['cv.md'] = markdown(data)

@@ -5,12 +5,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>{{ name }}</title>
+  <title>{{ name }} – {{ job_title }} &amp; AI Builder</title>
   <meta name="description" content="{{ description }}" />
   <link rel="canonical" href="{{ site_url }}" />
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site_url }}">
+  <meta property="og:title" content="{{ name }} – {{ job_title }} &amp; AI Builder">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:image" content="{{ social_image_url }}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ name }} – {{ job_title }} &amp; AI Builder">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ name }} – {{ job_title }} &amp; AI Builder">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="{{ social_image_url }}">
+  <meta name="twitter:image:alt" content="{{ name }} – {{ job_title }} &amp; AI Builder">
   <link rel="describedby" type="text/markdown" href="{{ llms_url }}">
-  <link rel="stylesheet" href="assets/index.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+{{ page_css }}
+  </style>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
@@ -26,7 +41,11 @@
 <body>
   <div class="container">
     <main>
-      <img src="{{ image }}" alt="{{ name }}" class="profile-image" />
+      <picture>
+        <source type="image/avif" srcset="assets/profile-pic-200.avif 200w, assets/profile-pic-400.avif 400w" sizes="160px">
+        <source type="image/webp" srcset="assets/profile-pic-200.webp 200w, assets/profile-pic-400.webp 400w" sizes="160px">
+        <img src="{{ image }}" alt="{{ name }}" class="profile-image" width="400" height="400" fetchpriority="high" loading="eager" decoding="async" />
+      </picture>
       <h1>{{ name }}</h1>
       <p class="subtitle">{{ job_title }} &middot; AI Builder</p>
       <p class="tagline">{{ tagline }}</p>

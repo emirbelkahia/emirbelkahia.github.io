@@ -83,6 +83,9 @@ class BuildTests(unittest.TestCase):
             root = Path(directory)
             for folder in ('content', 'templates'):
                 shutil.copytree(ROOT / folder, root / folder)
+            (root / 'assets').mkdir()
+            for name in ('index.css', 'cv.css'):
+                shutil.copy(ROOT / 'assets' / name, root / 'assets' / name)
             shutil.copy(ROOT / 'build-site.py', root)
             (root / '.env').write_text('CV_EMAIL=private-fixture@example.invalid\nCV_PHONE=PRIVATE-PHONE\n')
 
@@ -130,6 +133,9 @@ class BuildTests(unittest.TestCase):
             root = Path(directory)
             for folder in ('content', 'templates'):
                 shutil.copytree(ROOT / folder, root / folder)
+            (root / 'assets').mkdir()
+            for name in ('index.css', 'cv.css'):
+                shutil.copy(ROOT / 'assets' / name, root / 'assets' / name)
             shutil.copy(ROOT / 'build-site.py', root)
             sitemap = root / 'sitemap.xml'
             today = datetime.now().strftime('%Y-%m-%d')

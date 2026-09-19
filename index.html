@@ -5,12 +5,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Emir Belkahia</title>
+  <title>Emir Belkahia – Staff Customer Success Manager &amp; AI Builder</title>
   <meta name="description" content="Emir Belkahia - Staff Customer Success Manager, AI builder, and writer. Practical AI for CS orgs." />
   <link rel="canonical" href="https://emirbelkahia.com/" />
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://emirbelkahia.com/">
+  <meta property="og:title" content="Emir Belkahia – Staff Customer Success Manager &amp; AI Builder">
+  <meta property="og:description" content="Emir Belkahia - Staff Customer Success Manager, AI builder, and writer. Practical AI for CS orgs.">
+  <meta property="og:image" content="https://emirbelkahia.com/assets/social-card.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Emir Belkahia – Staff Customer Success Manager &amp; AI Builder">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Emir Belkahia – Staff Customer Success Manager &amp; AI Builder">
+  <meta name="twitter:description" content="Emir Belkahia - Staff Customer Success Manager, AI builder, and writer. Practical AI for CS orgs.">
+  <meta name="twitter:image" content="https://emirbelkahia.com/assets/social-card.jpg">
+  <meta name="twitter:image:alt" content="Emir Belkahia – Staff Customer Success Manager &amp; AI Builder">
   <link rel="describedby" type="text/markdown" href="https://emirbelkahia.com/llms.txt">
-  <link rel="stylesheet" href="assets/index.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/assets/fonts/montserrat-latin.woff2') format('woff2');
+}
+
+:root {
+  --bg-color: #0e0e0e;
+  --card-bg: #1a1a1a;
+  --text-color: #f2f2f2;
+  --accent-color: #d4d4d4;
+  --hover-desc-color: #f8f8f8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: max(2rem, env(safe-area-inset-top)) max(2rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(2rem, env(safe-area-inset-left));
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--card-bg);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  padding: 2rem 1.5rem;
+  transform: translateY(20px);
+  animation: slideInUp 0.8s ease-out forwards;
+}
+
+@keyframes slideInUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.profile-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.2rem;
+  border: 3px solid var(--accent-color);
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.4rem;
+}
+
+.tagline {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 1.6rem;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.links a,
+.cta a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  text-decoration: none;
+  padding: 0.9rem 1.2rem;
+  border-radius: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--accent-color);
+  transition: background 0.25s, transform 0.2s;
+}
+
+.links a {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.cta a {
+  background-color: var(--accent-color);
+  color: #0e0e0e;
+  font-size: 0.95rem;
+}
+
+.links a:hover {
+  background-color: #2a2a2a;
+  transform: scale(1.02);
+}
+
+.cta a:hover {
+  background-color: #ffffff;
+  transform: scale(1.02);
+}
+
+.links a:hover .desc {
+  color: var(--hover-desc-color);
+}
+
+.desc {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-top: 0.3rem;
+  transition: color 0.2s;
+}
+
+footer {
+  margin-top: 1.6rem;
+  font-size: 0.7rem;
+  color: #999;
+  cursor: default;
+  transition: color 0.3s ease;
+}
+
+footer:hover {
+  color: #aaa;
+}
+
+.terminal-hint {
+  opacity: 0;
+  color: #28c840;
+  margin-left: 0.3rem;
+  transition: opacity 0.3s ease;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+}
+
+footer:hover .terminal-hint {
+  opacity: 1;
+}
+
+@media (max-height: 700px),
+(max-width: 480px) {
+  body {
+    padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  }
+
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .desc {
+    font-size: 0.75rem;
+  }
+
+  .cta a,
+  .links a {
+    min-height: 56px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    animation: none;
+    transform: none;
+  }
+  .links a, .cta a, .desc, footer, .terminal-hint {
+    transition: none;
+  }
+}
+
+  </style>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
@@ -119,7 +327,11 @@
 <body>
   <div class="container">
     <main>
-      <img src="profile-pic.jpeg" alt="Emir Belkahia" class="profile-image" />
+      <picture>
+        <source type="image/avif" srcset="assets/profile-pic-200.avif 200w, assets/profile-pic-400.avif 400w" sizes="160px">
+        <source type="image/webp" srcset="assets/profile-pic-200.webp 200w, assets/profile-pic-400.webp 400w" sizes="160px">
+        <img src="profile-pic.jpeg" alt="Emir Belkahia" class="profile-image" width="400" height="400" fetchpriority="high" loading="eager" decoding="async" />
+      </picture>
       <h1>Emir Belkahia</h1>
       <p class="subtitle">Staff Customer Success Manager &middot; AI Builder</p>
       <p class="tagline">Practical AI for CS orgs</p>
