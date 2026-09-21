@@ -18,7 +18,7 @@ Always run `git pull` before reading or editing files — other Claude sessions 
 - `cv.html` — web CV with download button
 - `cv-ats.html` — ATS-friendly CV, no contact info, no tracking. Self-contained on purpose: it keeps its inline CSS because `generate-pdf.sh` renders it over `file://`. Do not externalize it.
 - `cv.pdf` — generated PDF (see `generate-pdf.sh`)
-- `assets/` — external CSS/JS: `index.css`, `cv.css`, plus `terminal.js` / `terminal.css` which are fetched on demand
+- `assets/` — CSS sources (`index.css`, `cv.css`) inlined into the generated pages at build time, self-hosted fonts, responsive profile images and social preview assets; `terminal.js` / `terminal.css` are fetched on demand
 - `favicon.ico` at the repo root, plus `favicon/` — see below
 - `robots.txt` — crawl directives; `sitemap.xml` — URL discovery, generated
 
@@ -26,7 +26,8 @@ Always run `git pull` before reading or editing files — other Claude sessions 
 
 The site is built to be cheap for agents and crawlers to read. When editing pages, keep this intact:
 
-- **Keep CSS and JS external.** `index.html` and `cv.html` must stay mostly content. Do not inline styles or scripts back into them.
+- **Keep page CSS sources in `assets/`; inline them at build time.** As documented in `DEVELOPMENT.md`, `build-site.py` injects `assets/index.css` and `assets/cv.css` through the templates' `page_css` placeholder. This is intentional: it avoids an extra render-blocking stylesheet request. Edit the CSS sources and regenerate the pages; do not hand-edit generated styles or replace them with external stylesheet links.
+- **Keep fonts self-hosted.** The main pages use the Latin subsets of Lato and Montserrat under `assets/fonts/`; do not reintroduce third-party font stylesheets there. Terminal CSS and JavaScript stay external and load only on demand.
 - **The terminal easter egg is loaded on demand.** A small inline listener in `index.html` loads `assets/terminal.css` first, then `assets/terminal.js` and calls `window.__openTerminal()`. Either resource can fail and be retried on the next trigger; do not open an unstyled overlay. The script injects a native `<dialog>` for keyboard focus containment and exposes `window.__openTerminal`. Secret-word detection stays in the inline loader so reopening works.
 - **Keep the HTML semantic.** `main` / `nav` / `footer` / real headings, not `div` soup.
 - **`content/cv.json` is the source of truth for identity; JSON-LD is generated.** `index.html` carries a schema.org `@graph` (`WebSite` + `ProfilePage` + `Person`, all under stable `@id`s anchored on `https://emirbelkahia.com/#person`). `cv.html` carries a `ProfilePage` whose `mainEntity` reuses that same `@id`, plus the full `worksFor` role history, `hasCredential` and `knowsAbout`.
