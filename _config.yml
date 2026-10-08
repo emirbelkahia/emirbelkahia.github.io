@@ -2,7 +2,7 @@
 exclude:
   - README.md
   - DEVELOPMENT.md
-  - CLAUDE.md
+  - AGENTS.md
   - node_modules
   - tests
   - test-results
